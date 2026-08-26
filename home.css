@@ -365,18 +365,28 @@
 
 /* --------- Homepage shelf summary (replaced the 23-card grid) --------- */
 .shelf-summary { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; }
-.shelf-summary li { padding: 26px 30px; border-top: 1px solid var(--line-soft); border-left: 1px solid var(--line-soft); }
+/* This block sits inside .paper, which is `background: var(--cream)` - a light
+   section. It must use the ink palette, not the dark-theme --fg/--cream tokens:
+   --cream on cream is invisible and --fg-2 is a light grey that all but
+   disappears on it. That shipped once and was unreadable on a phone. */
+.shelf-summary li {
+  padding: 26px 30px;
+  border-top: 1px solid color-mix(in oklch, var(--ink) 16%, transparent);
+  border-left: 1px solid color-mix(in oklch, var(--ink) 16%, transparent);
+}
 .shelf-summary li:nth-child(odd) { border-left: none; padding-left: 0; }
 .shelf-summary li:nth-child(even) { padding-right: 0; }
 .shelf-summary li:nth-child(-n + 2) { border-top: none; padding-top: 8px; }
-.ss-cat { font-family: var(--serif); font-size: 1.35rem; font-variation-settings: "opsz" 72; color: var(--cream, var(--fg)); }
-.ss-count { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--leaf-vivid, var(--leaf)); margin-top: 7px; }
-.ss-brands { color: var(--fg-2); font-size: 0.92rem; line-height: 1.5; margin-top: 10px; }
+.ss-cat { font-family: var(--serif); font-size: 1.35rem; font-variation-settings: "opsz" 72; color: var(--ink); }
+.ss-count { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--honey-deep); margin-top: 7px; }
+.ss-brands { color: var(--ink-2); font-size: 0.92rem; line-height: 1.5; margin-top: 10px; }
 .shelf-cta { margin-top: 34px; }
 @media (max-width: 640px) {
   .shelf-summary { grid-template-columns: 1fr; }
-  .shelf-summary li { border-left: none; padding: 20px 0; }
-  .shelf-summary li:nth-child(-n + 2) { padding-top: 20px; border-top: 1px solid var(--line-soft); }
+  .shelf-summary li,
+  .shelf-summary li:nth-child(odd),
+  .shelf-summary li:nth-child(even) { border-left: none; padding: 20px 0; }
+  .shelf-summary li:nth-child(-n + 2) { padding-top: 20px; border-top: 1px solid color-mix(in oklch, var(--ink) 16%, transparent); }
   .shelf-summary li:first-child { border-top: none; padding-top: 4px; }
   .shelf-cta { margin-top: 26px; }
   .shelf-cta .btn { width: 100%; justify-content: center; }

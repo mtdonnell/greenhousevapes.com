@@ -147,9 +147,16 @@ function routeHref(key) {
 }
 
 function Logomark() {
+  // The real shop badge, not the placeholder mark. Wrapped so the badge can
+  // tilt and catch a light sweep on hover/focus without moving the wordmark.
+  // Purely decorative motion - the <a> is what carries meaning, and the whole
+  // effect is disabled under prefers-reduced-motion.
   return (
     <a className="logomark" href={routeHref("home")} aria-label="Greenhouse Vapes home">
-      <img src={(window.__resources && window.__resources.iguanaMark) || "assets/iguana-mark.svg"} alt="" width="38" height="38" style={{ borderRadius: 10 }} />
+      <span className="logomark-badge" aria-hidden="true">
+        <img src="/assets/brand/logo-256.png" alt="" width="42" height="42" decoding="async" />
+        <span className="logomark-shine" />
+      </span>
       <div className="logomark-text">Greenhouse<span>.</span></div>
     </a>
   );

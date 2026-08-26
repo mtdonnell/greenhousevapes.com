@@ -221,19 +221,26 @@ function routeHref(key) {
   return window.__ROUTES__ && window.__ROUTES__[key] || "/" + key;
 }
 function Logomark() {
+  // The real shop badge, not the placeholder mark. Wrapped so the badge can
+  // tilt and catch a light sweep on hover/focus without moving the wordmark.
+  // Purely decorative motion - the <a> is what carries meaning, and the whole
+  // effect is disabled under prefers-reduced-motion.
   return /*#__PURE__*/React.createElement("a", {
     className: "logomark",
     href: routeHref("home"),
     "aria-label": "Greenhouse Vapes home"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "logomark-badge",
+    "aria-hidden": "true"
   }, /*#__PURE__*/React.createElement("img", {
-    src: window.__resources && window.__resources.iguanaMark || "assets/iguana-mark.svg",
+    src: "/assets/brand/logo-256.png",
     alt: "",
-    width: "38",
-    height: "38",
-    style: {
-      borderRadius: 10
-    }
-  }), /*#__PURE__*/React.createElement("div", {
+    width: "42",
+    height: "42",
+    decoding: "async"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "logomark-shine"
+  })), /*#__PURE__*/React.createElement("div", {
     className: "logomark-text"
   }, "Greenhouse", /*#__PURE__*/React.createElement("span", null, ".")));
 }

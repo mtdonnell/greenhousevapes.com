@@ -382,3 +382,57 @@ footer { border-top: 1px solid var(--line-soft); padding: 72px 0 40px; margin-to
 }
 
 /* Old 860px overrides (still useful for tablet) */
+
+/* ---- Interactive shop badge in the nav / footer ----
+   The badge is a raster logo, so the interaction is applied around it: a small
+   tilt and lift, a soft brand-green halo, and a light sweep that reads as a
+   glint off the sunglasses. Decorative only - hidden from assistive tech, and
+   fully disabled when the visitor prefers reduced motion. */
+.logomark-badge {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.35s ease;
+  will-change: transform;
+}
+.logomark-badge img { width: 100%; height: 100%; display: block; border-radius: 50%; }
+
+.logomark-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,0.55) 50%, transparent 62%);
+  transform: translateX(-120%);
+  opacity: 0;
+}
+
+.logomark:hover .logomark-badge,
+.logomark:focus-visible .logomark-badge {
+  transform: rotate(-7deg) scale(1.09);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--leaf) 26%, transparent),
+              0 6px 18px color-mix(in oklch, var(--leaf) 22%, transparent);
+}
+.logomark:hover .logomark-shine,
+.logomark:focus-visible .logomark-shine {
+  animation: badge-glint 0.75s ease-out;
+}
+.logomark:active .logomark-badge { transform: rotate(-3deg) scale(1.02); }
+
+@keyframes badge-glint {
+  0%   { transform: translateX(-120%); opacity: 0; }
+  35%  { opacity: 1; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logomark-badge { transition: none; }
+  .logomark:hover .logomark-badge,
+  .logomark:focus-visible .logomark-badge { transform: none; }
+  .logomark-shine { display: none; }
+}
