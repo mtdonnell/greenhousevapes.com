@@ -1,0 +1,8 @@
+# Netlify's Pretty URLs post-processing served /about and left about.html
+# reachable too — two live URLs for one page. Collapse them permanently.
+/index.html      /            301
+/about.html      /about       301
+/contact.html    /contact     301
+/faq.html        /faq         301
+/locations.html  /locations   301
+/rewards.html    /rewards     301

@@ -1,0 +1,16 @@
+# Files in this repo that must NOT be uploaded as public site assets.
+#
+# Cloudflare uploads the repo root as static assets. Without .git listed,
+# /.git/config and /.git/index are reachable publicly — the classic exposed-
+# repository misconfiguration. This bit mtdonnell.com; do not remove it.
+
+.git
+.gitignore
+.assetsignore
+wrangler.jsonc
+README.md
+
+# Build inputs and the archived Netlify deploy.
+components/*.jsx
+_netlify-original
+.gitattributes

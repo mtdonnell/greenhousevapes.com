@@ -1,0 +1,17 @@
+{
+  // Static-assets-only Worker, same shape as mtdonnell.com. No server-side
+  // script — Cloudflare serves the repo root directly.
+  "name": "greenhousevapes-com",
+  "compatibility_date": "2026-08-25",
+  "assets": {
+    "directory": ".",
+
+    // Netlify served /about from about.html and never used a trailing slash.
+    // "drop-trailing-slash" reproduces that exactly: /about/ 301s to /about,
+    // and /about serves about.html. Keeps every indexed URL shape intact.
+    "html_handling": "drop-trailing-slash",
+
+    // Default "none" returns a zero-length 404 body — a blank white page.
+    "not_found_handling": "404-page"
+  }
+}

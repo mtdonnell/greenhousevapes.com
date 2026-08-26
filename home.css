@@ -1,0 +1,230 @@
+/* ============================================================ */
+/* Greenhouse Vapes — "warm & local" redesign layer            */
+/* Warm botanical base, paper-grain texture, vivid leaf accent, */
+/* hand-drawn marks, animated vapor, scroll reveals.           */
+/* ============================================================ */
+
+:root {
+  /* Warm the base + brighter, livelier leaf accent */
+  --warm-bg: oklch(0.17 0.022 152);
+  --warm-bg-2: oklch(0.21 0.026 152);
+  --cream: oklch(0.94 0.028 92);
+  --cream-2: oklch(0.89 0.034 88);
+  --ink: oklch(0.26 0.04 150);
+  --ink-2: oklch(0.40 0.04 150);
+  --leaf-vivid: oklch(0.82 0.18 138);
+  --honey: oklch(0.80 0.13 78);
+  --honey-deep: oklch(0.66 0.14 66);
+}
+
+/* Paper grain overlay — handcrafted feel, very subtle */
+.grain::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNDAnIGhlaWdodD0nMTQwJz48ZmlsdGVyIGlkPSduJz48ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgYmFzZUZyZXF1ZW5jeT0nMC44NScgbnVtT2N0YXZlcz0nMicgc3RpdGNoVGlsZXM9J3N0aXRjaCcvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPScxNDAnIGhlaWdodD0nMTQwJyBmaWx0ZXI9J3VybCgjbiknIG9wYWNpdHk9JzAuNScvPjwvc3ZnPg==");
+  opacity: 0.04;
+}
+
+/* ---- Scroll reveal ---- */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s cubic-bezier(0.2,0.7,0.2,1), transform 0.7s cubic-bezier(0.2,0.7,0.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: 0.07s; }
+.reveal-d2 { transition-delay: 0.14s; }
+.reveal-d3 { transition-delay: 0.21s; }
+.reveal-d4 { transition-delay: 0.28s; }
+.reveal-d5 { transition-delay: 0.35s; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ---- Hand-drawn underline + circle ---- */
+.hero-wrap h1 { line-height: 1.16; }
+.hand-underline { position: relative; white-space: nowrap; }
+.hand-underline svg { position: absolute; left: -4%; bottom: -0.14em; width: 108%; height: 0.34em; overflow: visible; }
+.hand-underline path { stroke: var(--leaf-vivid); stroke-width: 4; fill: none; stroke-linecap: round;
+  stroke-dasharray: 320; stroke-dashoffset: 320; }
+.reveal.in .hand-underline path, .hero-wrap .hand-underline path { animation: draw 0.9s 0.35s cubic-bezier(0.6,0,0.3,1) forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .hand-underline path { stroke-dashoffset: 0 !important; animation: none !important; } }
+
+/* ---- HERO ---- */
+.hero-wrap {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 78% 18%, color-mix(in oklch, var(--leaf-vivid) 12%, transparent) 0%, transparent 55%),
+    radial-gradient(90% 80% at 12% 92%, color-mix(in oklch, var(--honey) 8%, transparent) 0%, transparent 50%),
+    var(--warm-bg);
+}
+.hero-grid2 { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center; }
+
+/* Iguana stage with vapor */
+.iguana-stage {
+  position: relative; aspect-ratio: 1/1; display: grid; place-items: center;
+}
+.iguana-disc {
+  position: absolute; inset: 6%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 42%, color-mix(in oklch, var(--leaf-vivid) 26%, transparent) 0%, transparent 62%),
+    var(--warm-bg-2);
+  border: 1px solid color-mix(in oklch, var(--leaf-vivid) 24%, transparent);
+  box-shadow: inset 0 2px 40px color-mix(in oklch, var(--leaf-vivid) 16%, transparent);
+}
+.iguana-disc::after {
+  content: ""; position: absolute; inset: -1px; border-radius: 50%;
+  background: conic-gradient(from 200deg, transparent 0 60%, color-mix(in oklch, var(--leaf-vivid) 40%, transparent) 80%, transparent 100%);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  animation: spin 14s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.iguana-art { position: relative; z-index: 2; width: 74%; filter: drop-shadow(0 24px 44px oklch(0 0 0 / 0.4)); animation: bob 6s ease-in-out infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0) rotate(-0.4deg); } 50% { transform: translateY(-12px) rotate(0.4deg); } }
+@media (prefers-reduced-motion: reduce) { .iguana-art { animation: none; } .iguana-disc::after { animation: none; } }
+
+/* Vapor wisps */
+.vapor { position: absolute; z-index: 3; left: 50%; top: 30%; pointer-events: none; }
+.vapor span {
+  position: absolute; bottom: 0; left: 0;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in oklch, var(--leaf-2) 70%, white) 0%, transparent 70%);
+  filter: blur(3px);
+  opacity: 0;
+  animation: vapor-rise var(--vd, 4s) ease-in infinite;
+  animation-delay: var(--vdelay, 0s);
+}
+@keyframes vapor-rise {
+  0% { transform: translateY(0) translateX(0) scale(0.7); opacity: 0; }
+  15% { opacity: 0.6; }
+  100% { transform: translateY(-220px) translateX(var(--drift, 0px)) scale(2.1); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .vapor { display: none; } }
+
+/* Floating sticker badges around iguana (desktop/tablet only — mobile uses .hero-badges-row instead, see below) */
+.sticker {
+  position: absolute; z-index: 4;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  background: var(--cream); color: var(--ink);
+  padding: 9px 13px; border-radius: 999px;
+  box-shadow: 0 8px 24px oklch(0 0 0 / 0.28);
+  display: inline-flex; align-items: center; gap: 7px; font-weight: 600;
+  animation: bob 7s ease-in-out infinite;
+}
+.sticker b { color: var(--honey-deep); }
+.sticker-leaf { background: var(--leaf-vivid); color: oklch(0.2 0.04 150); }
+@media (prefers-reduced-motion: reduce) { .sticker { animation: none; } }
+
+/* Mobile-safe badge row: on small screens the floating stickers would overlap the
+   mascot artwork (too little room), so we swap them for a plain static row below it. */
+.hero-badges-row { display: none; }
+.badge-pill {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase;
+  background: var(--cream); color: var(--ink); font-weight: 600;
+  padding: 9px 14px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 6px;
+  box-shadow: 0 6px 18px oklch(0 0 0 / 0.22);
+}
+.badge-pill b { color: var(--honey-deep); }
+.badge-pill-leaf { background: var(--leaf-vivid); color: oklch(0.2 0.04 150); }
+@media (max-width: 640px) {
+  .hero-stickers { display: none; }
+  .hero-badges-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
+}
+
+/* ---- Paper (cream) sections for warmth + rhythm ---- */
+.paper {
+  position: relative; overflow: hidden;
+  background: var(--cream); color: var(--ink);
+}
+.paper h2, .paper h3 { color: var(--ink); }
+.paper .eyebrow { color: var(--honey-deep); }
+.paper p { color: var(--ink-2); }
+.paper-edge-top { position: absolute; top: -1px; left: 0; width: 100%; height: 40px; display: block; }
+.paper-edge-bottom { position: absolute; bottom: -1px; left: 0; width: 100%; height: 40px; display: block; transform: rotate(180deg); }
+
+/* ---- Vape Finder quiz ---- */
+.finder {
+  position: relative;
+  background: var(--warm-bg-2);
+  border: 1px solid color-mix(in oklch, var(--leaf-vivid) 22%, transparent);
+  border-radius: var(--radius-lg);
+  padding: clamp(28px, 4vw, 52px);
+  overflow: hidden;
+}
+.finder-progress { display: flex; gap: 6px; margin-bottom: 28px; }
+.finder-pip { height: 4px; flex: 1; border-radius: 99px; background: var(--line-soft); overflow: hidden; }
+.finder-pip span { display: block; height: 100%; width: 0; background: var(--leaf-vivid); transition: width 0.4s ease; }
+.finder-pip.done span { width: 100%; }
+.finder-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.finder-opt {
+  text-align: left; padding: 20px; border-radius: var(--radius);
+  border: 1px solid var(--line); background: var(--warm-bg); color: var(--fg);
+  cursor: pointer; transition: transform 0.15s, border-color 0.15s, background 0.15s;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.finder-opt:hover { transform: translateY(-3px); border-color: var(--leaf-vivid); background: color-mix(in oklch, var(--leaf-vivid) 8%, var(--warm-bg)); }
+.finder-opt .fo-emoji { font-size: 26px; }
+.finder-opt .fo-title { font-family: var(--serif); font-size: 19px; font-variation-settings: "opsz" 72; }
+.finder-opt .fo-sub { font-size: 12.5px; color: var(--fg-3); }
+.finder-result-card {
+  display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center;
+  padding: 24px; border-radius: var(--radius); background: var(--warm-bg);
+  border: 1px solid color-mix(in oklch, var(--leaf-vivid) 30%, transparent);
+}
+
+/* ---- Brand / flavor explorer ---- */
+.explorer-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.chip {
+  padding: 9px 16px; border-radius: 999px; cursor: pointer;
+  font-size: 13px; font-weight: 600; letter-spacing: -0.01em;
+  border: 1px solid color-mix(in oklch, var(--ink) 24%, transparent); color: var(--ink-2); background: transparent;
+  transition: all 0.15s;
+}
+.chip:hover { border-color: var(--leaf-vivid); color: var(--ink); }
+.chip.active { background: var(--leaf-vivid); color: oklch(0.2 0.04 150); border-color: var(--leaf-vivid); }
+.explorer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.brand-card {
+  position: relative; padding: 26px 22px; border-radius: var(--radius);
+  background: var(--warm-bg-2); border: 1px solid var(--line-soft);
+  transition: transform 0.18s, border-color 0.18s; overflow: hidden;
+  min-height: 150px; display: flex; flex-direction: column; justify-content: space-between;
+}
+.brand-card:hover { transform: translateY(-4px); border-color: color-mix(in oklch, var(--leaf-vivid) 45%, transparent); }
+.brand-card .bc-name { font-family: var(--serif); font-size: 26px; font-variation-settings: "opsz" 144; letter-spacing: -0.02em; color: var(--cream); }
+.brand-card .bc-cat { margin-top: 4px; }
+.brand-card .bc-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.brand-card .bc-tag { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--fg-3); border: 1px solid var(--line-soft); padding: 3px 8px; border-radius: 99px; }
+
+/* ---- Community / testimonial note ---- */
+.note-card {
+  background: var(--cream); color: var(--ink);
+  border-radius: var(--radius-lg); padding: 32px 30px;
+  box-shadow: 0 14px 40px oklch(0 0 0 / 0.18);
+  position: relative; transform: rotate(var(--tilt, -1.2deg));
+  transition: transform 0.2s;
+}
+.note-card:hover { transform: rotate(0deg) translateY(-3px); }
+.note-card .nc-quote { font-family: var(--serif); font-size: 19px; line-height: 1.45; font-variation-settings: "opsz" 72; }
+.note-card .nc-by { margin-top: 18px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--honey-deep); }
+.note-pin { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 16px; height: 16px; border-radius: 50%; background: var(--honey); box-shadow: 0 2px 6px oklch(0 0 0 / 0.3); }
+
+/* ---- Magnetic / lively buttons ---- */
+.btn-lift { transition: transform 0.15s cubic-bezier(0.2,0.7,0.2,1), box-shadow 0.15s; }
+.btn-lift:hover { transform: translateY(-2px); box-shadow: 0 10px 26px color-mix(in oklch, var(--leaf-vivid) 30%, transparent); }
+.btn-lift:active { transform: translateY(0); }
+
+/* ---- Marquee (warmer, mixed) ---- */
+.ticker { background: var(--leaf-vivid); color: oklch(0.2 0.04 150); }
+.ticker .tk { font-family: var(--serif); font-weight: 600; font-variation-settings: "opsz" 144; }
+
+/* Section number flourish */
+.sec-no { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--leaf-vivid); }
+.paper .sec-no { color: var(--honey-deep); }
+
+@media (max-width: 860px) {
+  .hero-grid2 { grid-template-columns: 1fr; gap: 24px; }
+  .iguana-col { order: -1; }
+  .iguana-stage { max-width: 340px; margin: 0 auto; }
+  .finder-layout { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .rewards-layout { grid-template-columns: 1fr !important; gap: 28px !important; }
+}

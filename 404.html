@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Page Not Found · Greenhouse Vapes</title>
+<meta name="robots" content="noindex, follow" />
+<link rel="stylesheet" href="/styles.css" />
+<style>
+  .nf { min-height: 100dvh; display: grid; place-content: center; justify-items: center;
+        text-align: center; gap: 1rem; padding: 2rem; background: var(--bg); color: var(--fg); }
+  .nf h1 { font-family: var(--serif); font-size: clamp(2rem, 6vw, 3.25rem); margin: 0; }
+  .nf p  { color: var(--fg-2); max-width: 46ch; margin: 0; }
+  .nf nav { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; margin-top: .5rem; }
+  .nf a { color: var(--bg); background: var(--leaf); text-decoration: none;
+          padding: .6rem 1.1rem; border-radius: var(--radius-sm); font-weight: 600; }
+  .nf a.ghost { background: transparent; color: var(--fg-2); border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<main class="nf">
+  <h1>That page has been repotted.</h1>
+  <p>We couldn't find what you were looking for. Both shops are still open — try one of these instead.</p>
+  <nav>
+    <a href="/">Home</a>
+    <a class="ghost" href="/locations">Locations &amp; Hours</a>
+    <a class="ghost" href="/contact">Contact</a>
+  </nav>
+</main>
+</body>
+</html>
