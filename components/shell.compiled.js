@@ -364,6 +364,8 @@ function Footer() {
   }, "21+ only \xB7 Must be of legal age")), /*#__PURE__*/React.createElement("div", {
     className: "footer-col"
   }, /*#__PURE__*/React.createElement("h4", null, "Shop"), /*#__PURE__*/React.createElement("a", {
+    href: routeHref("products")
+  }, "Products"), /*#__PURE__*/React.createElement("a", {
     href: routeHref("about")
   }, "About"), /*#__PURE__*/React.createElement("a", {
     href: routeHref("locations")

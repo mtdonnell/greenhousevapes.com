@@ -275,6 +275,7 @@ function Footer() {
           </div>
           <div className="footer-col">
             <h4>Shop</h4>
+            <a href={routeHref("products")}>Products</a>
             <a href={routeHref("about")}>About</a>
             <a href={routeHref("locations")}>Locations</a>
             <a href={routeHref("rewards")}>Rewards</a>

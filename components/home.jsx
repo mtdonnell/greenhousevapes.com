@@ -49,7 +49,7 @@ function Hero() {
                   <span key={i} style={{ left: w.left, "--vd": w.vd, "--vdelay": w.delay, "--drift": w.drift }}/>
                 ))}
               </div>
-              <img className="iguana-art" src={(window.__resources && window.__resources.iguanaHero) || "assets/iguana-hero.svg"} alt="Iguana mascot illustration for Greenhouse Vapes, a vape shop in Festus and De Soto, Missouri" />
+              <img className="iguana-art" src="/assets/brand/logo-hero.png" width="720" height="720" alt="Greenhouse Vapes logo — vape shop in Festus and De Soto, Missouri" fetchPriority="high" />
               <div className="hero-stickers">
                 <div className="sticker sticker-leaf" style={{ top: "4%", left: "2%", animationDelay: "0.4s" }}>Price-match promise</div>
                 <div className="sticker" style={{ bottom: "10%", right: "-3%", animationDelay: "1.2s" }}><b>★</b> 6th visit = reward</div>

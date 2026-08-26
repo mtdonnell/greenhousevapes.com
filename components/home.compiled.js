@@ -145,8 +145,11 @@ function Hero() {
     }
   }))), /*#__PURE__*/React.createElement("img", {
     className: "iguana-art",
-    src: window.__resources && window.__resources.iguanaHero || "assets/iguana-hero.svg",
-    alt: "Iguana mascot illustration for Greenhouse Vapes, a vape shop in Festus and De Soto, Missouri"
+    src: "/assets/brand/logo-hero.png",
+    width: "720",
+    height: "720",
+    alt: "Greenhouse Vapes logo \u2014 vape shop in Festus and De Soto, Missouri",
+    fetchPriority: "high"
   }), /*#__PURE__*/React.createElement("div", {
     className: "hero-stickers"
   }, /*#__PURE__*/React.createElement("div", {
