@@ -3,6 +3,17 @@
   // script — Cloudflare serves the repo root directly.
   "name": "greenhousevapes-com",
   "compatibility_date": "2026-08-25",
+
+  // Keep the *.workers.dev preview URL alive. Adding a "routes" block would
+  // implicitly disable it unless this is set — that silently 404'd the
+  // rsnamescape preview during the first cutover attempt.
+  //
+  // The apex Custom Domain is NOT attached from here: Cloudflare refuses to
+  // create one over the existing DNS record pointing greenhousevapes.com at
+  // Netlify (error 100117). Use the dashboard's Add Custom Domain flow, which
+  // replaces that record; the CLI will not.
+  "workers_dev": true,
+
   "assets": {
     "directory": ".",
 

@@ -55,6 +55,29 @@ caused. Every source in it was traced to a real reference first — in particula
 a deploy, switch the header to `Content-Security-Policy-Report-Only`, confirm
 against the browser console, then promote it back.
 
+## The contact form does not work, and never did
+
+`ContactPage` in `pages.compiled.js` submits with:
+
+```js
+onSubmit: e => { e.preventDefault(); setSent(true); }
+```
+
+It shows "We'll get back to you within one business day" and sends the message
+nowhere — no fetch, no mailto, no backend. Netlify Forms never picked it up
+either: Netlify detects forms by parsing static HTML at build time, and this
+form is rendered by React, so it was invisible to that. The fields also have no
+`name` or value binding, so there is nothing to submit even if a handler
+existed. This is pre-existing, not a migration regression.
+
+Worse than the form: `support@greenhousevapes.com` is published as a `mailto:`
+on the same page, and **greenhousevapes.com has no MX records** — so mail to
+that address bounces. Anyone who has emailed the shop has been silently lost.
+
+Fixing both needs Cloudflare Email Routing on the zone (adds MX, forwards
+`support@` to a real inbox). Until then the form is worse than no form, because
+it claims a reply is coming.
+
 ## Known issues, not yet addressed
 
 The site is a client-side React app: crawlers see only the `<noscript>` block,
