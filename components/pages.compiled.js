@@ -1159,6 +1159,25 @@ const CATALOG = [{
     lines: "Fruit blends, salts and iced options"
   }]
 }, {
+  cat: "Glass",
+  blurb: "A full glass case at both shops - water pipes, hand pipes, rigs and the replacement parts that keep them going. Stock rotates constantly, so come look or call and we'll tell you what's in the case today.",
+  brands: [{
+    name: "Water pipes",
+    lines: "Beakers, straight tubes and percolators, in a range of sizes"
+  }, {
+    name: "Hand pipes",
+    lines: "Spoons, chillums and one-hitters"
+  }, {
+    name: "Bubblers",
+    lines: "Hand-held, water-cooled"
+  }, {
+    name: "Dab rigs",
+    lines: "Rigs and quartz"
+  }, {
+    name: "Parts & extras",
+    lines: "Bowls, downstems, ash catchers, screens and cleaner"
+  }]
+}, {
   cat: "Accessories",
   blurb: "The small things that keep a setup running.",
   brands: [{

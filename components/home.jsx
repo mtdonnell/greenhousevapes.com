@@ -142,6 +142,8 @@ function ExplorerSection() {
     { cat: "Devices & kits", count: "7 brands", brands: "Vaporesso · GeekVape · SMOK · FreeMax · VooPoo" },
     { cat: "Pods & coils", count: "For every device we sell", brands: "Vaporesso · GeekVape · SMOK · OXVA · VooPoo" },
     { cat: "E-liquid", count: "Salt & freebase, 30–100mL", brands: "Coastal Clouds · Juice Head · Monster · Candy King" },
+    { cat: "Glass", count: "Full case at both shops", brands: "Water pipes · Hand pipes · Bubblers · Rigs · Parts" },
+    { cat: "Accessories", count: "The bits that wear out", brands: "Batteries · Grinders · Coils · Chargers" },
   ];
   return (
     <section className="paper grain">

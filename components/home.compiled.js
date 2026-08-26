@@ -319,6 +319,14 @@ function ExplorerSection() {
     cat: "E-liquid",
     count: "Salt & freebase, 30–100mL",
     brands: "Coastal Clouds · Juice Head · Monster · Candy King"
+  }, {
+    cat: "Glass",
+    count: "Full case at both shops",
+    brands: "Water pipes · Hand pipes · Bubblers · Rigs · Parts"
+  }, {
+    cat: "Accessories",
+    count: "The bits that wear out",
+    brands: "Batteries · Grinders · Coils · Chargers"
   }];
   return /*#__PURE__*/React.createElement("section", {
     className: "paper grain"
