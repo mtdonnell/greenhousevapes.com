@@ -25,8 +25,15 @@
 }
 
 /* ---- Scroll reveal ---- */
-.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s cubic-bezier(0.2,0.7,0.2,1), transform 0.7s cubic-bezier(0.2,0.7,0.2,1); }
-.reveal.in { opacity: 1; transform: none; }
+/* Content is visible by default. Only once JS is confirmed running (the `js`
+   class is set by an inline script in <head>) do we hide it to animate it in.
+   Before this, every pre-rendered .reveal block sat at opacity 0 until React
+   mounted and IntersectionObserver fired - so the page looked transparent on
+   slower phones, and the whole point of pre-rendering was lost for anyone
+   without JS. */
+.reveal { opacity: 1; transform: none; transition: opacity 0.7s cubic-bezier(0.2,0.7,0.2,1), transform 0.7s cubic-bezier(0.2,0.7,0.2,1); }
+.js .reveal { opacity: 0; transform: translateY(26px); }
+.js .reveal.in { opacity: 1; transform: none; }
 .reveal-d1 { transition-delay: 0.07s; }
 .reveal-d2 { transition-delay: 0.14s; }
 .reveal-d3 { transition-delay: 0.21s; }
@@ -36,12 +43,23 @@
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
 
+/* No scroll-reveal on small screens. Setting the `js` class in <head> hides
+   .reveal blocks the instant CSS parses, but they only fade back in once React
+   has mounted and IntersectionObserver has fired - on a mid-range phone that
+   gap is long enough to read as "the products are transparent". The animation
+   is not worth an invisible page, so below 900px content is simply visible. */
+@media (max-width: 900px) {
+  .js .reveal, .js .reveal.in { opacity: 1; transform: none; transition: none; }
+  .js .hand-underline path { stroke-dashoffset: 0; }
+}
+
 /* ---- Hand-drawn underline + circle ---- */
 .hero-wrap h1 { line-height: 1.16; }
 .hand-underline { position: relative; white-space: nowrap; }
 .hand-underline svg { position: absolute; left: -4%; bottom: -0.14em; width: 108%; height: 0.34em; overflow: visible; }
 .hand-underline path { stroke: var(--leaf-vivid); stroke-width: 4; fill: none; stroke-linecap: round;
-  stroke-dasharray: 320; stroke-dashoffset: 320; }
+  stroke-dasharray: 320; stroke-dashoffset: 0; }
+.js .hand-underline path { stroke-dashoffset: 320; }
 .reveal.in .hand-underline path, .hero-wrap .hand-underline path { animation: draw 0.9s 0.35s cubic-bezier(0.6,0,0.3,1) forwards; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .hand-underline path { stroke-dashoffset: 0 !important; animation: none !important; } }
@@ -255,7 +273,12 @@
 }
 @media (max-width: 520px) {
   .assurances { grid-template-columns: 1fr; }
-  .assurances li {
+  /* nth-child selectors in the 900px block outrank a plain `.assurances li`,
+     so the gutter must be set at matching specificity or the ::before marker
+     lands on top of the text. */
+  .assurances li,
+  .assurances li:nth-child(odd),
+  .assurances li:nth-child(even) {
     border-left: none;
     padding: 15px 0 15px 20px;
     position: relative;
