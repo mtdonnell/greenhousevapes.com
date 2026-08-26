@@ -26,3 +26,5 @@ node_modules
 package.json
 package-lock.json
 babel.config.json
+build
+vendor/*.map

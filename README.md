@@ -94,10 +94,44 @@ matches the original bundler. Verified by recompiling the pre-existing .jsx and
 diffing against the shipped .compiled.js - identical apart from one attribute
 ordering, meaning the two were already slightly out of sync upstream.
 
+## Pre-rendering (the SEO fix)
+
+The site is a client-rendered React app, so crawlers used to receive only the
+<noscript> stub - the single biggest SEO problem for a business ranking on
+"vape shop near me". `npm run build` fixes that: build/prerender.mjs loads the
+same components/*.compiled.js the browser loads, in a Node vm sandbox with a
+minimal browser surface, renders each route with renderToStaticMarkup, and
+injects the result into that page's <div id="root">.
+
+Result: every page ships ~1,600-4,200 characters of real crawlable text instead
+of a stub. The browser bundle is untouched, so there is no second copy of the
+truth - the same compiled files serve both.
+
+Deploy with `npm run deploy`, which builds first. Running plain `wrangler
+deploy` still works but ships whatever was last built.
+
+Three things that matter if you touch this:
+
+- **The age gate does not block it.** App renders `!ageOk && <AgeGate/>`
+  *alongside* `<main>`, not wrapping it, so the page content is always in the
+  tree even with ageOk false. If that ever becomes a wrapper, pre-rendering
+  silently starts emitting an age modal and nothing else.
+- **Nothing time-dependent may be baked in.** getStoreStatus() derives
+  "Closed - opens 10am" from the clock; cached HTML rendered at 6am would still
+  say Closed at noon. prerender.mjs overrides it with "Open 7 days", true at
+  every hour, and the client swaps in live status on mount. Any future
+  time-based or personalised render needs the same treatment.
+- **inject() must stay idempotent.** It runs on files that already contain a
+  render. The obvious `/<div id="root">[\s\S]*?<\/div>/` is wrong: the lazy
+  match stops at the first </div> *inside* the injected markup and shreds the
+  page on the second run. It anchors on the PRERENDER comment markers instead.
+
+React 18.3.1 is vendored in vendor/ rather than loaded from unpkg. That removes
+a third-party DNS+TLS handshake from the critical path and let the CSP drop
+its third-party script host entirely.
+
 ## Known issues, not yet addressed
 
-The site is a client-side React app: crawlers see only the `<noscript>` block,
-not the rendered page. For a local business ranking on "vape shop near me" that
-is the single biggest SEO problem here. The `Store` JSON-LD (both locations,
-hours, `areaServed`) is well-built and should be preserved verbatim in any
-rebuild. React is also loaded from unpkg.com on the critical path.
+Design overhaul and content depth are still outstanding - pre-rendering
+addressed SEO only. Product/brand data in `BrandExplorer` (interactive.jsx) is
+whatever was already published; it has not been checked against real inventory.

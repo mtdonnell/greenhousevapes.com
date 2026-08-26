@@ -9,6 +9,13 @@
   "devDependencies": {
     "@babel/cli": "^8.0.4",
     "@babel/core": "^8.0.1",
-    "@babel/preset-react": "^8.0.1"
+    "@babel/preset-react": "^8.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "scripts": {
+    "build": "node build/prerender.mjs",
+    "build:jsx": "babel components/pages.jsx -o components/pages.compiled.js",
+    "deploy": "npm run build && wrangler deploy"
   }
 }

@@ -1,7 +1,7 @@
 # Netlify served NO CSP on this site — this policy is new, so anything it
 # blocks is a breakage the migration introduced. Every source below was traced
 # to a real reference before being allowed:
-#   unpkg.com        React 18 UMD, loaded by every page
+#   (React is now vendored at /vendor/, so no third-party script host)
 #   fonts.googleapis Fraunces / Geist / JetBrains Mono stylesheet
 #   fonts.gstatic    the font files that stylesheet pulls
 #   www.google.com   StoreMap() in shell.compiled.js embeds maps?q=...&output=embed
@@ -13,7 +13,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.google.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.google.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
 
 # Fingerprint-free filenames, so revalidate rather than cache hard.
 /components/*
@@ -27,3 +27,7 @@
 
 /home.css
   Cache-Control: public, max-age=3600, must-revalidate
+
+# Version is pinned in the filename, so this can be cached permanently.
+/vendor/*
+  Cache-Control: public, max-age=31536000, immutable
