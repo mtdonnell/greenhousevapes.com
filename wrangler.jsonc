@@ -1,8 +1,8 @@
 {
-  // Static-assets-only Worker, same shape as mtdonnell.com. No server-side
-  // script — Cloudflare serves the repo root directly.
   "name": "greenhousevapes-com",
+  "main": "src/index.js",
   "compatibility_date": "2026-08-25",
+  "compatibility_flags": ["nodejs_compat"],
 
   // Keep the *.workers.dev preview URL alive. Declaring "routes" implicitly
   // disables it unless this is set — that silently 404'd the rsnamescape
@@ -26,6 +26,7 @@
 
   "assets": {
     "directory": ".",
+    "binding": "ASSETS",
 
     // Netlify served /about from about.html and never used a trailing slash.
     // "drop-trailing-slash" reproduces that exactly: /about/ 301s to /about,
@@ -33,6 +34,33 @@
     "html_handling": "drop-trailing-slash",
 
     // Default "none" returns a zero-length 404 body — a blank white page.
-    "not_found_handling": "404-page"
-  }
+    "not_found_handling": "404-page",
+
+    // Assets are served ahead of the Worker by default. /api/* must reach the
+    // script instead; every other request skips the Worker entirely.
+    "run_worker_first": ["/api/*"]
+  },
+
+  // Delivers the contact form. destination_address pins the binding to one
+  // recipient, so even if the endpoint were abused it cannot be used to mail
+  // arbitrary people. This address is a *verified Email Routing destination*;
+  // support@greenhousevapes.com cannot be one, because that domain's MX points
+  // at Email Routing and its verification mail would loop back into the router.
+  // Mail to support@ forwards here anyway, so inquiries land in the same inbox.
+  "send_email": [
+    {
+      "name": "SEND_EMAIL",
+      "destination_address": "matthewtdonnell@gmail.com"
+    }
+  ],
+
+  "ratelimits": [
+    {
+      "name": "CONTACT_LIMIT",
+      "namespace_id": "2001",
+      "simple": { "limit": 5, "period": 60 }
+    }
+  ],
+
+  "observability": { "enabled": true }
 }

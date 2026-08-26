@@ -437,6 +437,8 @@ function FAQ() {
 
 function Contact() {
   const [sent, setSent] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
+  const [error, setError] = React.useState("");
   return (
     <>
       <section style={{ paddingBottom: 40 }}>
@@ -474,14 +476,44 @@ function Contact() {
                   <p style={{ color: "var(--fg-2)" }}>We'll get back to you within one business day.</p>
                 </div>
               ) : (
-                <form onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  const fd = new FormData(e.currentTarget);
+                  setError("");
+                  setSending(true);
+                  try {
+                    const r = await fetch("/api/contact", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        name: fd.get("name") || "",
+                        contact: fd.get("contact") || "",
+                        store: fd.get("store") || "",
+                        message: fd.get("message") || "",
+                        company: fd.get("company") || "",
+                      }),
+                    });
+                    if (!r.ok) throw new Error(String(r.status));
+                    setSent(true);
+                  } catch (err) {
+                    setError("That didn't go through. Please call the shop at (636) 638-2111, or email support@greenhousevapes.com.");
+                  } finally {
+                    setSending(false);
+                  }
+                }}>
                   <h3 style={{ marginBottom: 24 }}>Send us a note</h3>
-                  <Field label="Your name" placeholder="Jane Smith" />
-                  <Field label="Email or phone" placeholder="jane@example.com" />
-                  <Field label="Which store?" select options={["Either / doesn't matter", "Festus", "De Soto"]} />
-                  <Field label="Message" textarea placeholder="What's up?" />
-                  <button type="submit" className="btn btn-primary" style={{ width: "100%", justifyContent: "center", marginTop: 8 }}>
-                    Send message →
+                  {/* Honeypot: hidden from people, catnip for bots. */}
+                  <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true"
+                    style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }} />
+                  {error && (
+                    <p role="alert" style={{ color: "var(--danger)", fontSize: 14, marginBottom: 16 }}>{error}</p>
+                  )}
+                  <Field label="Your name" name="name" required placeholder="Jane Smith" />
+                  <Field label="Email or phone" name="contact" required placeholder="jane@example.com" />
+                  <Field label="Which store?" name="store" select options={["Either / doesn't matter", "Festus", "De Soto"]} />
+                  <Field label="Message" name="message" required textarea placeholder="What's up?" />
+                  <button type="submit" className="btn btn-primary" disabled={sending} style={{ width: "100%", justifyContent: "center", marginTop: 8, opacity: sending ? 0.6 : 1 }}>
+                    {sending ? "Sending…" : "Send message →"}
                   </button>
                 </form>
               )}
@@ -510,7 +542,7 @@ function ContactRow({ label, value, href, last }) {
   );
 }
 
-function Field({ label, placeholder, textarea, select, options }) {
+function Field({ label, name, placeholder, textarea, select, options, required }) {
   const baseStyle = {
     width: "100%",
     background: "var(--bg)",
@@ -527,19 +559,19 @@ function Field({ label, placeholder, textarea, select, options }) {
     <div style={{ marginBottom: 18 }}>
       <label style={{ display: "block", fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 8 }}>{label}</label>
       {textarea ? (
-        <textarea rows={4} placeholder={placeholder} style={baseStyle}
+        <textarea rows={4} name={name} required={required} placeholder={placeholder} style={baseStyle}
           onFocus={(e) => (e.currentTarget.style.borderColor = "var(--leaf)")}
           onBlur={(e) => (e.currentTarget.style.borderColor = "var(--line-soft)")}
         />
       ) : select ? (
-        <select style={baseStyle}
+        <select name={name} style={baseStyle}
           onFocus={(e) => (e.currentTarget.style.borderColor = "var(--leaf)")}
           onBlur={(e) => (e.currentTarget.style.borderColor = "var(--line-soft)")}
         >
           {options.map((o) => <option key={o}>{o}</option>)}
         </select>
       ) : (
-        <input type="text" placeholder={placeholder} style={baseStyle}
+        <input type="text" name={name} required={required} placeholder={placeholder} style={baseStyle}
           onFocus={(e) => (e.currentTarget.style.borderColor = "var(--leaf)")}
           onBlur={(e) => (e.currentTarget.style.borderColor = "var(--line-soft)")}
         />

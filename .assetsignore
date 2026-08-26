@@ -19,3 +19,10 @@ README.md
 components/*.jsx
 _netlify-original
 .gitattributes
+
+# Worker source and its dependencies - served by the runtime, never as files.
+src
+node_modules
+package.json
+package-lock.json
+babel.config.json

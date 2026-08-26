@@ -55,28 +55,44 @@ caused. Every source in it was traced to a real reference first — in particula
 a deploy, switch the header to `Content-Security-Policy-Report-Only`, confirm
 against the browser console, then promote it back.
 
-## The contact form does not work, and never did
+## The contact form (fixed 2026-08-25)
 
-`ContactPage` in `pages.compiled.js` submits with:
+It used to submit with:
 
-```js
-onSubmit: e => { e.preventDefault(); setSent(true); }
-```
+    onSubmit: e => { e.preventDefault(); setSent(true); }
 
-It shows "We'll get back to you within one business day" and sends the message
-nowhere — no fetch, no mailto, no backend. Netlify Forms never picked it up
-either: Netlify detects forms by parsing static HTML at build time, and this
-form is rendered by React, so it was invisible to that. The fields also have no
-`name` or value binding, so there is nothing to submit even if a handler
-existed. This is pre-existing, not a migration regression.
+It showed "We will get back to you within one business day" and sent the
+message nowhere. Netlify Forms never picked it up either - Netlify detects
+forms by parsing static HTML at build time, and this form is rendered by React,
+so it was invisible. The fields also had no name attributes, so there was
+nothing to submit even if a handler had existed.
 
-Worse than the form: `support@greenhousevapes.com` is published as a `mailto:`
-on the same page, and **greenhousevapes.com has no MX records** — so mail to
-that address bounces. Anyone who has emailed the shop has been silently lost.
+Now: the fields have names, the form POSTs JSON to /api/contact, and
+src/index.js emails it via the send_email binding. A hidden honeypot field
+(company) drops bots, and CONTACT_LIMIT rate-limits by IP.
 
-Fixing both needs Cloudflare Email Routing on the zone (adds MX, forwards
-`support@` to a real inbox). Until then the form is worse than no form, because
-it claims a reply is coming.
+Mail goes to matthewtdonnell@gmail.com, NOT to support@greenhousevapes.com.
+The binding can only send to a *verified Email Routing destination*, and
+support@ cannot be one: greenhousevapes.com MX points at Email Routing, so its
+verification mail would loop back into the router. Mail to support@ forwards to
+the same inbox anyway. destination_address pins the binding to that single
+recipient, so the endpoint cannot be abused to mail arbitrary people.
+
+Note for future edits: Reply-To must be a mimetext Mailbox instance, not a
+string. A string throws MIMETEXT_INVALID_HEADER_VALUE, which reaches the
+browser as an opaque 1101 "Worker threw an exception".
+
+### Editing the React components
+
+components/*.jsx are the source; the browser loads components/*.compiled.js.
+Recompile with:
+
+    npx babel components/pages.jsx -o components/pages.compiled.js
+
+babel.config.json pins the classic runtime and non-minimal jsesc so output
+matches the original bundler. Verified by recompiling the pre-existing .jsx and
+diffing against the shipped .compiled.js - identical apart from one attribute
+ordering, meaning the two were already slightly out of sync upstream.
 
 ## Known issues, not yet addressed
 

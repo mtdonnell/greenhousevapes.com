@@ -1,0 +1,14 @@
+{
+  "name": "greenhousevapes-com",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static site plus a contact-form Worker for Greenhouse Vapes.",
+  "dependencies": {
+    "mimetext": "^3.0.24"
+  },
+  "devDependencies": {
+    "@babel/cli": "^8.0.4",
+    "@babel/core": "^8.0.1",
+    "@babel/preset-react": "^8.0.1"
+  }
+}

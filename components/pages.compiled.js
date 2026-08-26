@@ -482,13 +482,13 @@ function Rewards() {
 function PunchCardVisual() {
   const [filled, setFilled] = React.useState(3);
   return /*#__PURE__*/React.createElement("div", {
-    className: "rewards-visual-grid",
     style: {
       display: "grid",
       gridTemplateColumns: "1.3fr 1fr",
       gap: 48,
       alignItems: "center"
-    }
+    },
+    className: "rewards-visual-grid"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       background: "linear-gradient(135deg, var(--bg-3), var(--bg-2))",
@@ -760,6 +760,8 @@ function FAQ() {
 
 function Contact() {
   const [sent, setSent] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
+  const [error, setError] = React.useState("");
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("section", {
     style: {
       paddingBottom: 40
@@ -870,37 +872,89 @@ function Contact() {
       color: "var(--fg-2)"
     }
   }, "We'll get back to you within one business day.")) : /*#__PURE__*/React.createElement("form", {
-    onSubmit: e => {
+    onSubmit: async e => {
       e.preventDefault();
-      setSent(true);
+      const fd = new FormData(e.currentTarget);
+      setError("");
+      setSending(true);
+      try {
+        const r = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: fd.get("name") || "",
+            contact: fd.get("contact") || "",
+            store: fd.get("store") || "",
+            message: fd.get("message") || "",
+            company: fd.get("company") || ""
+          })
+        });
+        if (!r.ok) throw new Error(String(r.status));
+        setSent(true);
+      } catch (err) {
+        setError("That didn't go through. Please call the shop at (636) 638-2111, or email support@greenhousevapes.com.");
+      } finally {
+        setSending(false);
+      }
     }
   }, /*#__PURE__*/React.createElement("h3", {
     style: {
       marginBottom: 24
     }
-  }, "Send us a note"), /*#__PURE__*/React.createElement(Field, {
+  }, "Send us a note"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    name: "company",
+    tabIndex: -1,
+    autoComplete: "off",
+    "aria-hidden": "true",
+    style: {
+      position: "absolute",
+      left: "-9999px",
+      width: 1,
+      height: 1,
+      opacity: 0
+    }
+  }), error && /*#__PURE__*/React.createElement("p", {
+    role: "alert",
+    style: {
+      color: "var(--danger)",
+      fontSize: 14,
+      marginBottom: 16
+    }
+  }, error), /*#__PURE__*/React.createElement(Field, {
     label: "Your name",
+    name: "name",
+    required: true,
     placeholder: "Jane Smith"
   }), /*#__PURE__*/React.createElement(Field, {
     label: "Email or phone",
+    name: "contact",
+    required: true,
     placeholder: "jane@example.com"
   }), /*#__PURE__*/React.createElement(Field, {
     label: "Which store?",
+    name: "store",
     select: true,
     options: ["Either / doesn't matter", "Festus", "De Soto"]
   }), /*#__PURE__*/React.createElement(Field, {
     label: "Message",
+    name: "message",
+    required: true,
     textarea: true,
     placeholder: "What's up?"
   }), /*#__PURE__*/React.createElement("button", {
     type: "submit",
     className: "btn btn-primary",
+    disabled: sending,
     style: {
       width: "100%",
       justifyContent: "center",
-      marginTop: 8
+      marginTop: 8,
+      opacity: sending ? 0.6 : 1
     }
-  }, "Send message \u2192")))))));
+  }, sending ? "Sending…" : "Send message →")))))));
 }
 function ContactRow({
   label,
@@ -938,10 +992,12 @@ function ContactRow({
 }
 function Field({
   label,
+  name,
   placeholder,
   textarea,
   select,
-  options
+  options,
+  required
 }) {
   const baseStyle = {
     width: "100%",
@@ -971,11 +1027,14 @@ function Field({
     }
   }, label), textarea ? /*#__PURE__*/React.createElement("textarea", {
     rows: 4,
+    name: name,
+    required: required,
     placeholder: placeholder,
     style: baseStyle,
     onFocus: e => e.currentTarget.style.borderColor = "var(--leaf)",
     onBlur: e => e.currentTarget.style.borderColor = "var(--line-soft)"
   }) : select ? /*#__PURE__*/React.createElement("select", {
+    name: name,
     style: baseStyle,
     onFocus: e => e.currentTarget.style.borderColor = "var(--leaf)",
     onBlur: e => e.currentTarget.style.borderColor = "var(--line-soft)"
@@ -983,6 +1042,8 @@ function Field({
     key: o
   }, o))) : /*#__PURE__*/React.createElement("input", {
     type: "text",
+    name: name,
+    required: required,
     placeholder: placeholder,
     style: baseStyle,
     onFocus: e => e.currentTarget.style.borderColor = "var(--leaf)",
