@@ -426,3 +426,7 @@
   .store-map, .store-map iframe { min-height: 300px; }
   .store-dl div { grid-template-columns: 88px 1fr; }
 }
+
+.store-onsite { margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--line-soft); }
+.store-onsite h2 { font-size: clamp(1.4rem, 3.2vw, 1.85rem); margin: 0 0 10px; }
+.store-onsite p { color: var(--fg-2); max-width: 620px; margin: 0; }

@@ -736,6 +736,8 @@ const STORES = {
     phone: "(636) 638-2111",
     tel: "6366382111",
     serves: ["Crystal City", "Herculaneum", "Pevely", "Imperial", "Arnold"],
+    onsite: "CoinFlip Bitcoin ATM",
+    onsiteNote: "There's a CoinFlip Bitcoin ATM inside the Festus shop — buy or sell during regular store hours.",
     blurb:
       "Our Festus storefront sits on East Main Street in the middle of town, carrying the full lineup — disposables, refillable kits, coils and pods, e-liquid and a full glass case.",
   },
@@ -798,6 +800,7 @@ function StorePage({ store }) {
               <dl className="store-dl">
                 <div><dt>Address</dt><dd>{s.street}<br />{s.city}, MO {s.zip}</dd></div>
                 <div><dt>Phone</dt><dd><a href={"tel:" + s.tel}>{s.phone}</a></dd></div>
+                {s.onsite && <div><dt>On site</dt><dd>{s.onsite}</dd></div>}
               </dl>
               <h3 className="store-sub">Hours</h3>
               <table className="store-hours">
@@ -818,6 +821,13 @@ function StorePage({ store }) {
               />
             </div>
           </div>
+
+          {s.onsiteNote && (
+            <div className="store-onsite">
+              <h2>Also at this location</h2>
+              <p>{s.onsiteNote}</p>
+            </div>
+          )}
 
           <div className="store-serves">
             <h2>Also an easy drive from</h2>

@@ -1275,6 +1275,8 @@ const STORES = {
     phone: "(636) 638-2111",
     tel: "6366382111",
     serves: ["Crystal City", "Herculaneum", "Pevely", "Imperial", "Arnold"],
+    onsite: "CoinFlip Bitcoin ATM",
+    onsiteNote: "There's a CoinFlip Bitcoin ATM inside the Festus shop — buy or sell during regular store hours.",
     blurb: "Our Festus storefront sits on East Main Street in the middle of town, carrying the full lineup — disposables, refillable kits, coils and pods, e-liquid and a full glass case."
   },
   desoto: {
@@ -1368,7 +1370,7 @@ function StorePage({
     className: "store-dl"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("dt", null, "Address"), /*#__PURE__*/React.createElement("dd", null, s.street, /*#__PURE__*/React.createElement("br", null), s.city, ", MO ", s.zip)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("dt", null, "Phone"), /*#__PURE__*/React.createElement("dd", null, /*#__PURE__*/React.createElement("a", {
     href: "tel:" + s.tel
-  }, s.phone)))), /*#__PURE__*/React.createElement("h3", {
+  }, s.phone))), s.onsite && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("dt", null, "On site"), /*#__PURE__*/React.createElement("dd", null, s.onsite))), /*#__PURE__*/React.createElement("h3", {
     className: "store-sub"
   }, "Hours"), /*#__PURE__*/React.createElement("table", {
     className: "store-hours"
@@ -1383,7 +1385,9 @@ function StorePage({
     src: mapSrc,
     loading: "lazy",
     referrerPolicy: "no-referrer-when-downgrade"
-  }))), /*#__PURE__*/React.createElement("div", {
+  }))), s.onsiteNote && /*#__PURE__*/React.createElement("div", {
+    className: "store-onsite"
+  }, /*#__PURE__*/React.createElement("h2", null, "Also at this location"), /*#__PURE__*/React.createElement("p", null, s.onsiteNote)), /*#__PURE__*/React.createElement("div", {
     className: "store-serves"
   }, /*#__PURE__*/React.createElement("h2", null, "Also an easy drive from"), /*#__PURE__*/React.createElement("p", null, s.serves.join(" · "), " \u2014 and anywhere else in Jefferson County. Call ahead and we'll hold something for you."), /*#__PURE__*/React.createElement("a", {
     className: "btn btn-ghost",
