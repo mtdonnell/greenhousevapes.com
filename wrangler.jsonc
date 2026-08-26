@@ -4,15 +4,25 @@
   "name": "greenhousevapes-com",
   "compatibility_date": "2026-08-25",
 
-  // Keep the *.workers.dev preview URL alive. Adding a "routes" block would
-  // implicitly disable it unless this is set — that silently 404'd the
-  // rsnamescape preview during the first cutover attempt.
-  //
-  // The apex Custom Domain is NOT attached from here: Cloudflare refuses to
-  // create one over the existing DNS record pointing greenhousevapes.com at
-  // Netlify (error 100117). Use the dashboard's Add Custom Domain flow, which
-  // replaces that record; the CLI will not.
+  // Keep the *.workers.dev preview URL alive. Declaring "routes" implicitly
+  // disables it unless this is set — that silently 404'd the rsnamescape
+  // preview during the first cutover attempt.
   "workers_dev": true,
+
+  // A Route, not a Custom Domain. Cloudflare refuses to create a Custom Domain
+  // over the DNS record that points the apex at Netlify (error 100117), and a
+  // Route does not need to touch DNS: it sits in front of whatever that record
+  // points at. Netlify stays configured as the origin but is never reached, so
+  // rollback is "delete this route" rather than "restore a DNS record nobody
+  // wrote down".
+  //
+  // The "/*" is load-bearing. A bare "greenhousevapes.com" pattern matches ONLY
+  // the exact root path — "/about", and even "/?x=1", fall through to the
+  // origin. That was the first cutover's failure mode: the homepage came from
+  // the Worker while every other URL was still served by Netlify.
+  "routes": [
+    { "pattern": "greenhousevapes.com/*", "zone_name": "greenhousevapes.com" }
+  ],
 
   "assets": {
     "directory": ".",
