@@ -75,22 +75,32 @@ function HeroTrust({ n, l }) {
   );
 }
 
-/* ----------------------------- TICKER ----------------------------- */
-function Ticker() {
-  const items = ["Price-match promise", "Punch-card rewards", "13 years local", "Expert staff", "Always stocked", "Festus", "De Soto", "Open 7 days"];
-  const triple = [...items, ...items, ...items];
+/* --------------------------- ASSURANCES ---------------------------
+   Replaces a scrolling marquee. A ticker draws the eye, says four things
+   badly, and reads as template furniture; a still, evenly-set row reads as
+   a business stating facts. Stillness is the upscale cue here.
+   Each item is a claim plus the detail that makes it credible.
+------------------------------------------------------------------- */
+function Assurances() {
+  const items = [
+    { label: "Price-match promise", detail: "Bring any local price. We meet or beat it." },
+    { label: "Thirteen years local", detail: "Serving Jefferson County since 2013." },
+    { label: "Two stocked shops", detail: "Festus and De Soto, open seven days." },
+    { label: "Staff who vape", detail: "Honest guidance, never an upsell." },
+  ];
   return (
-    <div className="ticker" style={{ padding: "16px 0", overflow: "hidden", borderTop: "1px solid oklch(0.2 0.04 150 / 0.2)", borderBottom: "1px solid oklch(0.2 0.04 150 / 0.2)" }}>
-      <div style={{ display: "flex", gap: 40, whiteSpace: "nowrap", animation: "marquee 22s linear infinite", willChange: "transform", transform: "translateZ(0)" }}>
-        {triple.map((t, i) => (
-          <div key={i} style={{ display: "flex", alignItems: "center", gap: 40, flexShrink: 0 }}>
-            <span className="tk" style={{ fontSize: 21 }}>{t}</span>
-            <span style={{ fontSize: 14 }}>✦</span>
-          </div>
-        ))}
+    <section aria-label="Why shop with us" style={{ borderTop: "1px solid var(--line-soft)", borderBottom: "1px solid var(--line-soft)", background: "var(--bg-2)" }}>
+      <div className="container">
+        <ul className="assurances">
+          {items.map((it) => (
+            <li key={it.label}>
+              <span className="as-label">{it.label}</span>
+              <span className="as-detail">{it.detail}</span>
+            </li>
+          ))}
+        </ul>
       </div>
-      <style>{`@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-33.333%); } }`}</style>
-    </div>
+    </section>
   );
 }
 
@@ -310,7 +320,7 @@ function Home() {
   return (
     <>
       <Hero />
-      <Ticker />
+      <Assurances />
       <FinderSection />
       <ExplorerSection />
       <PromiseSection />

@@ -193,45 +193,44 @@ function HeroTrust({
   }, l));
 }
 
-/* ----------------------------- TICKER ----------------------------- */
-function Ticker() {
-  const items = ["Price-match promise", "Punch-card rewards", "13 years local", "Expert staff", "Always stocked", "Festus", "De Soto", "Open 7 days"];
-  const triple = [...items, ...items, ...items];
-  return /*#__PURE__*/React.createElement("div", {
-    className: "ticker",
+/* --------------------------- ASSURANCES ---------------------------
+   Replaces a scrolling marquee. A ticker draws the eye, says four things
+   badly, and reads as template furniture; a still, evenly-set row reads as
+   a business stating facts. Stillness is the upscale cue here.
+   Each item is a claim plus the detail that makes it credible.
+------------------------------------------------------------------- */
+function Assurances() {
+  const items = [{
+    label: "Price-match promise",
+    detail: "Bring any local price. We meet or beat it."
+  }, {
+    label: "Thirteen years local",
+    detail: "Serving Jefferson County since 2013."
+  }, {
+    label: "Two stocked shops",
+    detail: "Festus and De Soto, open seven days."
+  }, {
+    label: "Staff who vape",
+    detail: "Honest guidance, never an upsell."
+  }];
+  return /*#__PURE__*/React.createElement("section", {
+    "aria-label": "Why shop with us",
     style: {
-      padding: "16px 0",
-      overflow: "hidden",
-      borderTop: "1px solid oklch(0.2 0.04 150 / 0.2)",
-      borderBottom: "1px solid oklch(0.2 0.04 150 / 0.2)"
+      borderTop: "1px solid var(--line-soft)",
+      borderBottom: "1px solid var(--line-soft)",
+      background: "var(--bg-2)"
     }
   }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 40,
-      whiteSpace: "nowrap",
-      animation: "marquee 22s linear infinite",
-      willChange: "transform",
-      transform: "translateZ(0)"
-    }
-  }, triple.map((t, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 40,
-      flexShrink: 0
-    }
+    className: "container"
+  }, /*#__PURE__*/React.createElement("ul", {
+    className: "assurances"
+  }, items.map(it => /*#__PURE__*/React.createElement("li", {
+    key: it.label
   }, /*#__PURE__*/React.createElement("span", {
-    className: "tk",
-    style: {
-      fontSize: 21
-    }
-  }, t), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 14
-    }
-  }, "\u2726")))), /*#__PURE__*/React.createElement("style", null, `@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-33.333%); } }`));
+    className: "as-label"
+  }, it.label), /*#__PURE__*/React.createElement("span", {
+    className: "as-detail"
+  }, it.detail))))));
 }
 
 /* ----------------------------- FINDER SECTION ----------------------------- */
@@ -691,7 +690,7 @@ function RewardsTeaser() {
   }, "5 stamps \u2192 6th visit reward")))))));
 }
 function Home() {
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Ticker, null), /*#__PURE__*/React.createElement(FinderSection, null), /*#__PURE__*/React.createElement(ExplorerSection, null), /*#__PURE__*/React.createElement(PromiseSection, null), /*#__PURE__*/React.createElement(LocationsPreview, null), /*#__PURE__*/React.createElement(RewardsTeaser, null));
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Assurances, null), /*#__PURE__*/React.createElement(FinderSection, null), /*#__PURE__*/React.createElement(ExplorerSection, null), /*#__PURE__*/React.createElement(PromiseSection, null), /*#__PURE__*/React.createElement(LocationsPreview, null), /*#__PURE__*/React.createElement(RewardsTeaser, null));
 }
 Object.assign(window, {
   Home

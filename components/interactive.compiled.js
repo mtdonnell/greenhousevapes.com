@@ -98,12 +98,14 @@ function VapeFinder() {
       flavor,
       nic
     } = answers;
+    // Brands we actually stock, per the master order sheet. Recommending a
+    // brand we don't carry sends someone to the counter for nothing.
     const flavorBrand = {
-      fruit: ["Lost Mary", "Geek Bar", "IVG"],
-      ice: ["SKE", "Vaporesso", "Geek Bar"],
-      dessert: ["IVG", "Lost Mary", "The Future"],
-      tobacco: ["Vaporesso", "Innokin", "Aspire"]
-    }[flavor] || ["Geek Bar", "Lost Mary", "Vaporesso"];
+      fruit: ["Foger Switch Pro", "Lost Mary Nera", "Geek Bar Pulse"],
+      ice: ["Off Stamp X-Cube", "Foger Switch Pro", "Geek Bar Pulse"],
+      dessert: ["Custard Monster", "Jam Monster", "Candy King"],
+      tobacco: ["Coastal Clouds", "Juice Head", "Vaporesso XROS"]
+    }[flavor] || ["Foger Switch Pro", "Geek Bar Pulse", "Lost Mary Nera"];
     let category, blurb, cta;
     if (type === "disposable") {
       category = "Disposables";
@@ -239,52 +241,99 @@ function VapeFinder() {
 
 /* ============================= BRAND EXPLORER ============================= */
 function BrandExplorer() {
+  // Taken from the shop's master order sheet, not from memory. Only
+  // customer-facing facts belong here: no vendors, SKUs or cost figures.
+  // Lines are ordered roughly by how much of each category we actually move.
   const brands = [{
+    name: "Foger",
+    cat: "Disposables",
+    tags: ["Switch Pro", "Our best seller"]
+  }, {
     name: "Geek Bar",
     cat: "Disposables",
-    tags: ["Fruity", "Big puff counts"]
+    tags: ["Pulse 2 25K", "Pulse X2 50K", "MATE 60K"]
   }, {
     name: "Lost Mary",
     cat: "Disposables",
-    tags: ["Fruity", "Crowd favorite"]
+    tags: ["Nera 70K", "MT35K Turbo"]
   }, {
-    name: "IVG",
+    name: "Off Stamp",
     cat: "Disposables",
-    tags: ["Dessert", "Bold flavor"]
+    tags: ["X-Cube", "Crystal series"]
   }, {
-    name: "SKE",
+    name: "iJoy",
     cat: "Disposables",
-    tags: ["Cool & minty", "Crystal series"]
+    tags: ["XP50K", "Zero-nicotine option"]
   }, {
     name: "Vaporesso",
-    cat: "Mods & kits",
-    tags: ["Reliable", "Beginner-friendly"]
+    cat: "Devices & kits",
+    tags: ["XROS 5", "XROS Pro 2", "Beginner-friendly"]
+  }, {
+    name: "GeekVape",
+    cat: "Devices & kits",
+    tags: ["Aegis Legend 5", "Aegis Hero 5", "Rugged"]
   }, {
     name: "SMOK",
-    cat: "Mods & kits",
-    tags: ["Powerful", "Big clouds"]
+    cat: "Devices & kits",
+    tags: ["Novo 6", "TFV18 tank"]
   }, {
-    name: "OXVA",
-    cat: "Pods & kits",
-    tags: ["Pocket-size", "Refillable"]
-  }, {
-    name: "Aspire",
-    cat: "Pods & kits",
-    tags: ["Smooth", "Dependable"]
+    name: "FreeMax",
+    cat: "Devices & kits",
+    tags: ["GEMM tanks", "Big clouds"]
   }, {
     name: "Innokin",
-    cat: "Mods & kits",
-    tags: ["Long battery", "Classic"]
+    cat: "Devices & kits",
+    tags: ["GoMax", "Long battery"]
   }, {
-    name: "Uwell",
-    cat: "Pods & kits",
-    tags: ["Great coils", "Caliburn"]
+    name: "VooPoo",
+    cat: "Devices & kits",
+    tags: ["NAVI", "Pocket-size"]
   }, {
-    name: "The Future",
+    name: "Boulder",
+    cat: "Devices & kits",
+    tags: ["Rock", "Viridian", "Simple to run"]
+  }, {
+    name: "Vaporesso pods",
+    cat: "Pods & coils",
+    tags: ["XROS Corex 3.0"]
+  }, {
+    name: "GeekVape coils",
+    cat: "Pods & coils",
+    tags: ["M / P / Z series", "Aegis Boost"]
+  }, {
+    name: "SMOK coils",
+    cat: "Pods & coils",
+    tags: ["RPM", "Novo", "Nord"]
+  }, {
+    name: "OXVA",
+    cat: "Pods & coils",
+    tags: ["Xlim top-fill"]
+  }, {
+    name: "VooPoo",
+    cat: "Pods & coils",
+    tags: ["PnP series"]
+  }, {
+    name: "Coastal Clouds",
     cat: "E-liquid",
-    tags: ["House pick", "Wide range"]
+    tags: ["Salt & freebase", "Widest range"]
+  }, {
+    name: "Juice Head",
+    cat: "E-liquid",
+    tags: ["30mL salt", "100mL freebase"]
+  }, {
+    name: "Monster",
+    cat: "E-liquid",
+    tags: ["Jam", "Fruit", "Custard"]
+  }, {
+    name: "Candy King",
+    cat: "E-liquid",
+    tags: ["Sweets", "Belts & rings"]
+  }, {
+    name: "Cloud Nurdz",
+    cat: "E-liquid",
+    tags: ["Fruit blends", "Iced options"]
   }];
-  const cats = ["All", "Disposables", "Pods & kits", "Mods & kits", "E-liquid"];
+  const cats = ["All", "Disposables", "Devices & kits", "Pods & coils", "E-liquid"];
   const [active, setActive] = useStateI("All");
   const shown = active === "All" ? brands : brands.filter(b => b.cat === active);
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {

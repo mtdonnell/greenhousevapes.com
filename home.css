@@ -214,8 +214,50 @@
 .btn-lift:active { transform: translateY(0); }
 
 /* ---- Marquee (warmer, mixed) ---- */
-.ticker { background: var(--leaf-vivid); color: oklch(0.2 0.04 150); }
-.ticker .tk { font-family: var(--serif); font-weight: 600; font-variation-settings: "opsz" 144; }
+/* Assurances row - replaced the scrolling ticker. Deliberately still: no
+   animation, generous rhythm, hairline rules. Reads as a statement of fact
+   rather than a moving banner. */
+.assurances {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.assurances li {
+  padding: 34px 32px;
+  border-left: 1px solid var(--line-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.assurances li:first-child { border-left: none; padding-left: 0; }
+.assurances li:last-child { padding-right: 0; }
+.as-label {
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  font-variation-settings: "opsz" 72;
+  color: var(--fg);
+  line-height: 1.25;
+}
+.as-detail {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--fg-3);
+  max-width: 30ch;
+}
+@media (max-width: 900px) {
+  .assurances { grid-template-columns: repeat(2, 1fr); }
+  .assurances li { padding: 26px 22px; }
+  .assurances li:nth-child(odd) { border-left: none; padding-left: 0; }
+  .assurances li:nth-child(n + 3) { border-top: 1px solid var(--line-soft); }
+  .assurances li:nth-child(even) { padding-right: 0; }
+}
+@media (max-width: 520px) {
+  .assurances { grid-template-columns: 1fr; }
+  .assurances li { border-left: none; padding: 20px 0; }
+  .assurances li + li { border-top: 1px solid var(--line-soft); }
+}
 
 /* Section number flourish */
 .sec-no { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--leaf-vivid); }

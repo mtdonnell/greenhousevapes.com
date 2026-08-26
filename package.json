@@ -14,8 +14,8 @@
     "react-dom": "^18.3.1"
   },
   "scripts": {
-    "build": "node build/prerender.mjs",
-    "build:jsx": "babel components/pages.jsx -o components/pages.compiled.js",
+    "build": "npm run build:jsx && node build/prerender.mjs",
+    "build:jsx": "babel components/shell.jsx -o components/shell.compiled.js && babel components/interactive.jsx -o components/interactive.compiled.js && babel components/home.jsx -o components/home.compiled.js && babel components/pages.jsx -o components/pages.compiled.js",
     "deploy": "npm run build && wrangler deploy"
   }
 }

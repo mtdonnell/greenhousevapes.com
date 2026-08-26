@@ -214,6 +214,9 @@ function StoreMap({
     referrerPolicy: "no-referrer-when-downgrade"
   }));
 }
+
+// Real per-page URLs (set once from App.compiled.js as window.__ROUTES__) so nav links are
+// crawlable <a href> — good for both users and search engines, no client router required.
 function routeHref(key) {
   return window.__ROUTES__ && window.__ROUTES__[key] || "/" + key;
 }

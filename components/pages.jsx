@@ -51,8 +51,8 @@ function About() {
           <div style={{ borderTop: "1px solid var(--line-soft)", paddingTop: 64, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 40 }}>
             <Stat2 n="13" label="Years serving Jefferson County" />
             <Stat2 n="2" label="Storefronts · Festus + De Soto" />
-            <Stat2 n="11+" label="Major brands carried" />
-            <Stat2 n="∞" label="Coffee consumed by staff" />
+            <Stat2 n="18+" label="Brands carried across every category" />
+            <Stat2 n="300+" label="Flavors tracked across both shops" />
           </div>
         </div>
       </section>
@@ -364,8 +364,8 @@ function FAQ() {
   const faqs = [
     { q: "What's the legal age to buy vape products in Missouri?", a: "You must be 21 or older to purchase any nicotine-containing vape product in Missouri. We card everyone under 35 without exception — bring a valid government-issued ID." },
     { q: "Do you really price-match other vape shops?", a: "Yes. If another Jefferson County vape shop (or an online retailer) is selling an identical product for less, show us — in person, on your phone, anything — and we'll match or beat that price. No paperwork, no delays." },
-    { q: "What brands of disposables do you stock?", a: "Our regular rotation includes Geek Bar, Lost Mary, IVG, SKE, and The Future. Individual flavor availability changes weekly as new drops land. Call either store and we'll tell you exactly what's on the shelf right now." },
-    { q: "Do you carry coils and pods for devices I bought elsewhere?", a: "Almost always. We keep coils and pods for every device we sell plus most popular devices we don't — Vaporesso, SMOK, OXVA, Aspire, Innokin, Uwell, and more. If we don't have your coil in stock, we'll order it." },
+    { q: "What brands of disposables do you stock?", a: "Our regular rotation includes Foger Switch Pro, Geek Bar (Pulse 2 25K, Pulse X2 50K and MATE 60K), Lost Mary (Nera 70K and MT35K Turbo), Off Stamp X-Cube, and iJoy. Individual flavor availability changes weekly as new drops land. Call either store and we'll tell you exactly what's on the shelf right now." },
+    { q: "Do you carry coils and pods for devices I bought elsewhere?", a: "Almost always. We keep coils and pods for every device we sell plus most popular devices we don't — Vaporesso, GeekVape, SMOK, OXVA, VooPoo, FreeMax, and more. If we don't have your coil in stock, we'll order it." },
     { q: "How does the Greenhouse rewards program work?", a: "We run an old-school punch card. Ask the cashier for one on your next visit — no app, no sign-up. Each qualifying purchase earns a stamp. Fill five stamps, and your sixth visit comes with a discount at the register. Stamps count at both our Festus and De Soto locations." },
     { q: "Which Greenhouse location is closer to me?", a: "If you're coming from Crystal City, Herculaneum, Pevely, or Arnold, Festus is likely closer. From Hillsboro, Cedar Hill, or points south, De Soto is usually the easier drive. Both carry the full lineup." },
     { q: "Do you sell online or ship products?", a: "Not currently. We're an in-store-only shop, which lets us keep prices lower and give you actual face-to-face recommendations. Both stores are open seven days a week." },

@@ -82,11 +82,11 @@ function About() {
     n: "2",
     label: "Storefronts \xB7 Festus + De Soto"
   }), /*#__PURE__*/React.createElement(Stat2, {
-    n: "11+",
-    label: "Major brands carried"
+    n: "18+",
+    label: "Brands carried across every category"
   }), /*#__PURE__*/React.createElement(Stat2, {
-    n: "\u221E",
-    label: "Coffee consumed by staff"
+    n: "300+",
+    label: "Flavors tracked across both shops"
   })))));
 }
 function AboutChapter({
@@ -630,10 +630,10 @@ function FAQ() {
     a: "Yes. If another Jefferson County vape shop (or an online retailer) is selling an identical product for less, show us — in person, on your phone, anything — and we'll match or beat that price. No paperwork, no delays."
   }, {
     q: "What brands of disposables do you stock?",
-    a: "Our regular rotation includes Geek Bar, Lost Mary, IVG, SKE, and The Future. Individual flavor availability changes weekly as new drops land. Call either store and we'll tell you exactly what's on the shelf right now."
+    a: "Our regular rotation includes Foger Switch Pro, Geek Bar (Pulse 2 25K, Pulse X2 50K and MATE 60K), Lost Mary (Nera 70K and MT35K Turbo), Off Stamp X-Cube, and iJoy. Individual flavor availability changes weekly as new drops land. Call either store and we'll tell you exactly what's on the shelf right now."
   }, {
     q: "Do you carry coils and pods for devices I bought elsewhere?",
-    a: "Almost always. We keep coils and pods for every device we sell plus most popular devices we don't — Vaporesso, SMOK, OXVA, Aspire, Innokin, Uwell, and more. If we don't have your coil in stock, we'll order it."
+    a: "Almost always. We keep coils and pods for every device we sell plus most popular devices we don't — Vaporesso, GeekVape, SMOK, OXVA, VooPoo, FreeMax, and more. If we don't have your coil in stock, we'll order it."
   }, {
     q: "How does the Greenhouse rewards program work?",
     a: "We run an old-school punch card. Ask the cashier for one on your next visit — no app, no sign-up. Each qualifying purchase earns a stamp. Fill five stamps, and your sixth visit comes with a discount at the register. Stamps count at both our Festus and De Soto locations."
