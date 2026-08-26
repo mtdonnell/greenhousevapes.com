@@ -6,6 +6,11 @@
 
 .git
 .gitignore
+
+# wrangler writes .wrangler/cache/wrangler-account.json here, which contains the
+# Cloudflare account id AND the account name - which is the account email. It
+# was served publicly on the first deploy. Do not remove this line.
+.wrangler
 .assetsignore
 wrangler.jsonc
 README.md
