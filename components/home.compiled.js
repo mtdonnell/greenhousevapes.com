@@ -125,7 +125,7 @@ function Hero() {
       background: "var(--line)"
     }
   }), /*#__PURE__*/React.createElement(HeroTrust, {
-    n: "11+",
+    n: "18+",
     l: "brands stocked"
   }))), /*#__PURE__*/React.createElement("div", {
     className: "iguana-col"
@@ -296,6 +296,27 @@ function FinderSection() {
 
 /* ----------------------------- EXPLORER (paper) ----------------------------- */
 function ExplorerSection() {
+  // Was a 23-card BrandExplorer grid. At phone width that grid collapses to a
+  // single column of 150px cards - roughly 3,500px of scroll before you reach
+  // anything else. The full catalogue now lives on /products; the homepage
+  // shows the shape of it and gets out of the way.
+  const summary = [{
+    cat: "Disposables",
+    count: "~180 flavors",
+    brands: "Foger · Geek Bar · Lost Mary · Off Stamp · iJoy"
+  }, {
+    cat: "Devices & kits",
+    count: "7 brands",
+    brands: "Vaporesso · GeekVape · SMOK · FreeMax · VooPoo"
+  }, {
+    cat: "Pods & coils",
+    count: "For every device we sell",
+    brands: "Vaporesso · GeekVape · SMOK · OXVA · VooPoo"
+  }, {
+    cat: "E-liquid",
+    count: "Salt & freebase, 30–100mL",
+    brands: "Coastal Clouds · Juice Head · Monster · Candy King"
+  }];
   return /*#__PURE__*/React.createElement("section", {
     className: "paper grain"
   }, /*#__PURE__*/React.createElement("div", {
@@ -311,14 +332,29 @@ function ExplorerSection() {
     style: {
       marginBottom: 12
     }
-  }, "02 \u2014 On the shelf"), /*#__PURE__*/React.createElement("h2", null, "Browse what we ", /*#__PURE__*/React.createElement(Squiggle, {
+  }, "02 \xB7 On the shelf"), /*#__PURE__*/React.createElement("h2", null, "What we ", /*#__PURE__*/React.createElement(Squiggle, {
     variant: 1
   }, "carry"), ".")), /*#__PURE__*/React.createElement(Reveal, {
     delay: 1,
     as: "p"
-  }, "Filter by what you're into. Searching \"Geek Bar Festus\" or \"Vaporesso De Soto\"? You're in the right place.")), /*#__PURE__*/React.createElement(Reveal, {
+  }, "Around 360 items across both shops, restocked weekly. Searching \"Geek Bar Festus\" or \"Vaporesso De Soto\"? You're in the right place.")), /*#__PURE__*/React.createElement(Reveal, {
     delay: 1
-  }, /*#__PURE__*/React.createElement(BrandExplorer, null))));
+  }, /*#__PURE__*/React.createElement("ul", {
+    className: "shelf-summary"
+  }, summary.map(s => /*#__PURE__*/React.createElement("li", {
+    key: s.cat
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "ss-cat"
+  }, s.cat), /*#__PURE__*/React.createElement("div", {
+    className: "ss-count"
+  }, s.count), /*#__PURE__*/React.createElement("div", {
+    className: "ss-brands"
+  }, s.brands)))), /*#__PURE__*/React.createElement("div", {
+    className: "shelf-cta"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "btn btn-primary",
+    href: routeHref("products")
+  }, "See the full lineup \u2192")))));
 }
 
 /* ----------------------------- PROMISE + NOTES ----------------------------- */

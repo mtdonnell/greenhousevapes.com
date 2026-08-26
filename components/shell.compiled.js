@@ -240,7 +240,7 @@ function Logomark() {
 function Nav({
   route
 }) {
-  const links = [["home", "Home"], ["about", "About"], ["locations", "Locations"], ["rewards", "Rewards"], ["faq", "FAQ"], ["contact", "Contact"]];
+  const links = [["home", "Home"], ["products", "Products"], ["about", "About"], ["locations", "Locations"], ["rewards", "Rewards"], ["faq", "FAQ"], ["contact", "Contact"]];
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Close menu on route change

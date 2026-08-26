@@ -31,3 +31,11 @@
 # Version is pinned in the filename, so this can be cached permanently.
 /vendor/*
   Cache-Control: public, max-age=31536000, immutable
+
+# HTML carries the ?v= stamps that pin each page to its bundle, so it must
+# always revalidate. The versioned assets it points at can cache hard.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

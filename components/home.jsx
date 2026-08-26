@@ -37,7 +37,7 @@ function Hero() {
               <span style={{ width: 1, height: 30, background: "var(--line)" }}/>
               <HeroTrust n="2" l="MO storefronts" />
               <span style={{ width: 1, height: 30, background: "var(--line)" }}/>
-              <HeroTrust n="11+" l="brands stocked" />
+              <HeroTrust n="18+" l="brands stocked" />
             </div>
           </div>
 
@@ -133,20 +133,42 @@ function FinderSection() {
 
 /* ----------------------------- EXPLORER (paper) ----------------------------- */
 function ExplorerSection() {
+  // Was a 23-card BrandExplorer grid. At phone width that grid collapses to a
+  // single column of 150px cards - roughly 3,500px of scroll before you reach
+  // anything else. The full catalogue now lives on /products; the homepage
+  // shows the shape of it and gets out of the way.
+  const summary = [
+    { cat: "Disposables", count: "~180 flavors", brands: "Foger · Geek Bar · Lost Mary · Off Stamp · iJoy" },
+    { cat: "Devices & kits", count: "7 brands", brands: "Vaporesso · GeekVape · SMOK · FreeMax · VooPoo" },
+    { cat: "Pods & coils", count: "For every device we sell", brands: "Vaporesso · GeekVape · SMOK · OXVA · VooPoo" },
+    { cat: "E-liquid", count: "Salt & freebase, 30–100mL", brands: "Coastal Clouds · Juice Head · Monster · Candy King" },
+  ];
   return (
     <section className="paper grain">
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <div className="section-head">
           <Reveal>
-            <div className="sec-no" style={{ marginBottom: 12 }}>02 — On the shelf</div>
-            <h2>Browse what we <Squiggle variant={1}>carry</Squiggle>.</h2>
+            <div className="sec-no" style={{ marginBottom: 12 }}>02 · On the shelf</div>
+            <h2>What we <Squiggle variant={1}>carry</Squiggle>.</h2>
           </Reveal>
           <Reveal delay={1} as="p">
-            Filter by what you're into. Searching "Geek Bar Festus" or "Vaporesso De Soto"? You're in the right place.
+            Around 360 items across both shops, restocked weekly. Searching "Geek Bar Festus"
+            or "Vaporesso De Soto"? You're in the right place.
           </Reveal>
         </div>
         <Reveal delay={1}>
-          <BrandExplorer />
+          <ul className="shelf-summary">
+            {summary.map((s) => (
+              <li key={s.cat}>
+                <div className="ss-cat">{s.cat}</div>
+                <div className="ss-count">{s.count}</div>
+                <div className="ss-brands">{s.brands}</div>
+              </li>
+            ))}
+          </ul>
+          <div className="shelf-cta">
+            <a className="btn btn-primary" href={routeHref("products")}>See the full lineup →</a>
+          </div>
         </Reveal>
       </div>
     </section>

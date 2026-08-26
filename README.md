@@ -130,6 +130,38 @@ React 18.3.1 is vendored in vendor/ rather than loaded from unpkg. That removes
 a third-party DNS+TLS handshake from the critical path and let the CSP drop
 its third-party script host entirely.
 
+## Asset versioning (do not remove)
+
+`build/prerender.mjs` stamps every `components/*.js`, `vendor/*.js` and `*.css`
+URL with `?v=<hash-of-that-file>`, and `_headers` makes HTML always revalidate.
+
+This is not cosmetic. Those bundles have no hash in their filenames and are
+cached for an hour, so before this existed a visitor could receive freshly
+deployed HTML together with an hour-old bundle. Adding /products did exactly
+that: the new HTML named a route the cached `app.compiled.js` had never heard
+of, and the page rendered blank. Stamping ties each page to the exact build it
+was rendered against; unchanged files keep their URL and stay cached.
+
+The stamp is stripped and reapplied on every build, so re-runs do not
+accumulate query strings.
+
+## Adding a page
+
+1. Write the component in `components/pages.jsx` and add it to the
+   `Object.assign(window, {...})` export at the bottom.
+2. Add the route to `window.__ROUTES__` **and** a `route === "..."` branch in
+   `components/app.compiled.js` (that file has no .jsx source - edit it directly).
+3. Add the nav entry in `components/shell.jsx`.
+4. Create the HTML shell. **Copy an existing page and strip its render by
+   anchoring on the `<!--PRERENDER-->` / `<!--/PRERENDER-->` markers** - a lazy
+   `/<div id="root">.*?<\/div>/` stops at the first `</div>` inside the markup
+   and leaves most of the copied page in the file. That shipped once: /products
+   went live showing two navs, two footers and the About page's content.
+   prerender.mjs now fails the build if a page ends up with more than one nav
+   or footer.
+5. Register it in `PAGES` in `build/prerender.mjs`, and add it to `sitemap.xml`
+   and `_redirects`.
+
 ## Known issues, not yet addressed
 
 Design overhaul and content depth are still outstanding - pre-rendering

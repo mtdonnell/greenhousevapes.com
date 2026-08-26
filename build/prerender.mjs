@@ -11,6 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -20,6 +21,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // route -> [html file, component name]
 const PAGES = {
   home: ['index.html', 'Home'],
+  products: ['products.html', 'Products'],
   about: ['about.html', 'About'],
   locations: ['locations.html', 'Locations'],
   rewards: ['rewards.html', 'Rewards'],
@@ -61,8 +63,9 @@ function makeSandbox(route) {
     window: {
       __ROUTE__: route,
       __ROUTES__: {
-        home: '/', about: '/about', locations: '/locations',
-        rewards: '/rewards', faq: '/faq', contact: '/contact',
+        home: '/', products: '/products', about: '/about',
+        locations: '/locations', rewards: '/rewards',
+        faq: '/faq', contact: '/contact',
       },
       matchMedia: () => ({ matches: false, addEventListener: noop, removeEventListener: noop }),
       addEventListener: noop,
@@ -136,6 +139,35 @@ function inject(html, markup) {
   return html.slice(0, contentStart) + MARK_OPEN + markup + MARK_CLOSE + html.slice(end);
 }
 
+// ---------------------------------------------------------------------------
+// Cache-busting.
+//
+// components/*.compiled.js and the CSS have no hash in their filenames, and
+// _headers caches them for an hour. That means a visitor can get freshly
+// deployed HTML alongside an hour-old bundle. It is not hypothetical: adding
+// the /products route shipped HTML for a route the cached app.compiled.js had
+// never heard of, and the page rendered completely blank.
+//
+// Stamping each asset URL with a hash of its own contents ties the HTML to the
+// exact build it was rendered against. Unchanged files keep their URL and stay
+// cached; changed files get a new URL and are fetched immediately.
+// ---------------------------------------------------------------------------
+function assetVersion(rel) {
+  const buf = fs.readFileSync(path.join(ROOT, rel));
+  return crypto.createHash('sha256').update(buf).digest('hex').slice(0, 8);
+}
+
+function stampAssets(html) {
+  return html.replace(
+    /(src|href)="\/(components\/[A-Za-z0-9._-]+\.js|vendor\/[A-Za-z0-9._-]+\.js|[A-Za-z0-9._-]+\.css)"/g,
+    (whole, attr, rel) => {
+      const abs = path.join(ROOT, rel);
+      if (!fs.existsSync(abs)) return whole;
+      return `${attr}="/${rel}?v=${assetVersion(rel)}"`;
+    }
+  );
+}
+
 let failed = 0;
 for (const [route, [file, componentName]] of Object.entries(PAGES)) {
   const target = path.join(ROOT, file);
@@ -160,7 +192,27 @@ for (const [route, [file, componentName]] of Object.entries(PAGES)) {
 
     const markup = renderToStaticMarkup(tree);
     const html = fs.readFileSync(target, 'utf8');
-    fs.writeFileSync(target, inject(html, markup));
+
+    // Strip any previous ?v= stamp first so re-runs don't accumulate them.
+    const bare = html.replace(
+      /((?:src|href)="\/(?:components|vendor)\/[A-Za-z0-9._-]+\.js|(?:src|href)="\/[A-Za-z0-9._-]+\.css)\?v=[0-9a-f]+"/g,
+      '$1"'
+    );
+    const out = stampAssets(inject(bare, markup));
+
+    // Guard against stray markup living OUTSIDE #root, which inject() cannot
+    // see. products.html was first built by copying about.html and stripping
+    // its render with a lazy /<div id="root">.*?<\/div>/ — that stopped at the
+    // first </div> inside the markup and left most of the About page in the
+    // file, so the deployed page showed two navs, two footers and the wrong
+    // content. Exactly one nav and one footer per page, always.
+    const navs = (out.match(/<nav class="nav"/g) || []).length;
+    const feet = (out.match(/<footer/g) || []).length;
+    if (navs !== 1 || feet !== 1) {
+      throw new Error(`expected 1 nav and 1 footer, found ${navs} nav / ${feet} footer — stray markup outside #root?`);
+    }
+
+    fs.writeFileSync(target, out);
     console.log(`  ok  ${file.padEnd(16)} ${markup.length.toLocaleString()} bytes of markup`);
   } catch (err) {
     failed++;

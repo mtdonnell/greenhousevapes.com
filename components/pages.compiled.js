@@ -1057,3 +1057,178 @@ Object.assign(window, {
   FAQ,
   Contact
 });
+
+/* ----------------------------- PRODUCTS -----------------------------
+   The full lineup, taken from the shop's master order sheet.
+   Deliberately a dense text list rather than a card grid: on a phone,
+   23 cards at 150px each is 3,500px of dead scroll. Grouped rows stay
+   scannable at any width and give search engines real product copy.
+   Customer-facing facts only - no vendors, SKUs or cost figures.
+--------------------------------------------------------------------- */
+const CATALOG = [{
+  cat: "Disposables",
+  blurb: "The biggest part of our shelf, and the fastest way to try something new. Around 180 flavors across both shops, restocked weekly.",
+  brands: [{
+    name: "Foger",
+    lines: "Switch Pro pods, kits and batteries",
+    note: "Our best seller"
+  }, {
+    name: "Geek Bar",
+    lines: "Pulse 2 25K · Pulse X2 50K · MATE 60K"
+  }, {
+    name: "Lost Mary",
+    lines: "Nera Fullview 70K · MT35K Turbo · MT35000"
+  }, {
+    name: "Off Stamp",
+    lines: "X-Cube · X-Cube Crystal"
+  }, {
+    name: "iJoy",
+    lines: "XP50K",
+    note: "Zero-nicotine option"
+  }]
+}, {
+  cat: "Devices & kits",
+  blurb: "Refillable setups that cost less over time. Tell us how you vape now and we'll set the whole thing up before you leave.",
+  brands: [{
+    name: "Vaporesso",
+    lines: "XROS 5 · XROS 5 Mini · XROS Pro 2 · XROS 6 Mini · XROS 4 Nano",
+    note: "Easiest starting point"
+  }, {
+    name: "GeekVape",
+    lines: "Aegis Legend 5 · Aegis Hero 5 · Aegis Solo 3 · Aegis Mini 5",
+    note: "Built to survive a job site"
+  }, {
+    name: "SMOK",
+    lines: "Novo 6 · TFV18 sub-ohm tank"
+  }, {
+    name: "FreeMax",
+    lines: "GEMM sub-ohm tanks"
+  }, {
+    name: "Innokin",
+    lines: "GoMax"
+  }, {
+    name: "VooPoo",
+    lines: "NAVI"
+  }, {
+    name: "Boulder",
+    lines: "Rock · Viridian"
+  }]
+}, {
+  cat: "Pods & coils",
+  blurb: "We keep coils and pods for every device we sell, plus most of the popular ones we don't. If yours isn't on the shelf, we'll order it.",
+  brands: [{
+    name: "Vaporesso",
+    lines: "XROS Series Corex 3.0 pods"
+  }, {
+    name: "GeekVape",
+    lines: "M series · P series · Z series · Aegis Boost · H45"
+  }, {
+    name: "SMOK",
+    lines: "RPM · RPM 3 · Novo · Nord 5 · TFV18"
+  }, {
+    name: "OXVA",
+    lines: "Xlim top-fill pods"
+  }, {
+    name: "VooPoo",
+    lines: "PnP-X · PnP-VM5 · PnP-VM6"
+  }, {
+    name: "FreeMax",
+    lines: "Kanthal double mesh"
+  }, {
+    name: "Boulder",
+    lines: "Rock · Viridian pods"
+  }]
+}, {
+  cat: "E-liquid",
+  blurb: "Salt and freebase, 30mL through 100mL. Bring your device and we'll match the right nicotine strength to it.",
+  brands: [{
+    name: "Coastal Clouds",
+    lines: "30mL salt · 60mL freebase",
+    note: "Widest flavor range we carry"
+  }, {
+    name: "Juice Head",
+    lines: "30mL salt · 100mL freebase"
+  }, {
+    name: "Monster",
+    lines: "Jam Monster · Fruit Monster · Custard Monster"
+  }, {
+    name: "Candy King",
+    lines: "Belts · Gush · Lemon Drops · Peachy Rings · Pink Squares · Sour Straws"
+  }, {
+    name: "Cloud Nurdz",
+    lines: "Fruit blends, salts and iced options"
+  }]
+}, {
+  cat: "Accessories",
+  blurb: "The small things that keep a setup running.",
+  brands: [{
+    name: "Batteries",
+    lines: "IMREN 18650 3000mAh"
+  }, {
+    name: "Grinders",
+    lines: "Human Grade 2.5in 4-piece"
+  }]
+}];
+function Products() {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("section", {
+    style: {
+      paddingBottom: 40
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 820
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "eyebrow",
+    style: {
+      marginBottom: 18
+    }
+  }, "What we carry"), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      marginBottom: 28
+    }
+  }, "Everything on our shelves, ", /*#__PURE__*/React.createElement("em", {
+    style: {
+      color: "var(--leaf)",
+      fontStyle: "italic"
+    }
+  }, "honestly"), " listed."), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 18,
+      color: "var(--fg-2)",
+      maxWidth: 640
+    }
+  }, "This is the real lineup at both Festus and De Soto \u2014 around 360 items across five categories, restocked every week. Flavor availability moves fast, so call the shop if you want something specific held.")))), /*#__PURE__*/React.createElement("section", {
+    style: {
+      paddingTop: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "container"
+  }, CATALOG.map(group => /*#__PURE__*/React.createElement("div", {
+    key: group.cat,
+    className: "cat-block"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "cat-head"
+  }, /*#__PURE__*/React.createElement("h2", null, group.cat), /*#__PURE__*/React.createElement("p", null, group.blurb)), /*#__PURE__*/React.createElement("ul", {
+    className: "cat-list"
+  }, group.brands.map(b => /*#__PURE__*/React.createElement("li", {
+    key: b.name + b.lines
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "cat-brand"
+  }, b.name, b.note && /*#__PURE__*/React.createElement("span", {
+    className: "cat-note"
+  }, b.note)), /*#__PURE__*/React.createElement("div", {
+    className: "cat-lines"
+  }, b.lines)))))), /*#__PURE__*/React.createElement("div", {
+    className: "cat-foot"
+  }, /*#__PURE__*/React.createElement("p", null, "Don't see it? We special-order most things at no extra cost. Call", " ", /*#__PURE__*/React.createElement("a", {
+    href: "tel:6366382111"
+  }, "(636) 638-2111"), " or", " ", /*#__PURE__*/React.createElement("a", {
+    href: routeHref("contact")
+  }, "send us a note"), ".")))));
+}
+Object.assign(window, {
+  Products
+});

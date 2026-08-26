@@ -6,6 +6,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 // same JS/CSS bundle. Each file sets window.__ROUTE__ before loading this script.
 window.__ROUTES__ = {
   home: "/",
+  products: "/products",
   about: "/about",
   locations: "/locations",
   rewards: "/rewards",
@@ -40,6 +41,7 @@ function App() {
       "main",
       { className: "fade-up" },
       route === "home" && /*#__PURE__*/React.createElement(Home, null),
+    route === "products" && /*#__PURE__*/React.createElement(Products, null),
       route === "about" && /*#__PURE__*/React.createElement(About, null),
       route === "locations" && /*#__PURE__*/React.createElement(Locations, null),
       route === "rewards" && /*#__PURE__*/React.createElement(Rewards, null),

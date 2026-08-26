@@ -158,6 +158,7 @@ function Logomark() {
 function Nav({ route }) {
   const links = [
     ["home", "Home"],
+    ["products", "Products"],
     ["about", "About"],
     ["locations", "Locations"],
     ["rewards", "Rewards"],
