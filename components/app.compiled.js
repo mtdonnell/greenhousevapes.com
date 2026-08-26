@@ -7,6 +7,8 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 window.__ROUTES__ = {
   home: "/",
   products: "/products",
+  festus: "/festus",
+  desoto: "/de-soto",
   about: "/about",
   locations: "/locations",
   rewards: "/rewards",
@@ -42,6 +44,8 @@ function App() {
       { className: "fade-up" },
       route === "home" && /*#__PURE__*/React.createElement(Home, null),
     route === "products" && /*#__PURE__*/React.createElement(Products, null),
+    route === "festus" && /*#__PURE__*/React.createElement(Festus, null),
+    route === "desoto" && /*#__PURE__*/React.createElement(DeSoto, null),
       route === "about" && /*#__PURE__*/React.createElement(About, null),
       route === "locations" && /*#__PURE__*/React.createElement(Locations, null),
       route === "rewards" && /*#__PURE__*/React.createElement(Rewards, null),

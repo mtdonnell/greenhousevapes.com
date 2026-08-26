@@ -240,8 +240,8 @@ function PromiseSection() {
 /* ----------------------------- LOCATIONS ----------------------------- */
 function LocationsPreview() {
   const locs = [
-    { name: "Festus", addr: "38 E Main St, Festus, MO", mapQ: "Greenhouse Vapes, 38 E Main St, Festus, MO 63028", hours: "Sun–Thu · 10a–8p", hours2: "Fri–Sat · 10a–9p" },
-    { name: "De Soto", addr: "418 S Main St, De Soto, MO", mapQ: "Greenhouse Vapes, 418 S Main St, De Soto, MO 63020", hours: "Sun–Thu · 10a–8p", hours2: "Fri–Sat · 10a–9p" },
+    { name: "Festus", page: "festus", addr: "38 E Main St, Festus, MO", mapQ: "Greenhouse Vapes, 38 E Main St, Festus, MO 63028", hours: "Sun–Thu · 10a–8p", hours2: "Fri–Sat · 10a–9p" },
+    { name: "De Soto", page: "desoto", addr: "418 S Main St, De Soto, MO", mapQ: "Greenhouse Vapes, 418 S Main St, De Soto, MO 63020", hours: "Sun–Thu · 10a–8p", hours2: "Fri–Sat · 10a–9p" },
   ];
   return (
     <section className="paper grain">
@@ -274,7 +274,7 @@ function LocationsPreview() {
                       <div style={{ fontSize: 14, color: "var(--fg-3)" }}>{l.hours2}</div>
                     </div>
                   </div>
-                  <a className="btn btn-ghost btn-lift" style={{ marginTop: 22 }} href={routeHref("locations")}>Hours &amp; directions →</a>
+                  <a className="btn btn-ghost btn-lift" style={{ marginTop: 22 }} href={routeHref(l.page)}>Hours &amp; directions →</a>
                 </div>
               </div>
             </Reveal>

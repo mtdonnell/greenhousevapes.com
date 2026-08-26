@@ -22,6 +22,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PAGES = {
   home: ['index.html', 'Home'],
   products: ['products.html', 'Products'],
+  festus: ['festus.html', 'Festus'],
+  desoto: ['de-soto.html', 'DeSoto'],
   about: ['about.html', 'About'],
   locations: ['locations.html', 'Locations'],
   rewards: ['rewards.html', 'Rewards'],
@@ -63,7 +65,7 @@ function makeSandbox(route) {
     window: {
       __ROUTE__: route,
       __ROUTES__: {
-        home: '/', products: '/products', about: '/about',
+        home: '/', products: '/products', festus: '/festus', desoto: '/de-soto', about: '/about',
         locations: '/locations', rewards: '/rewards',
         faq: '/faq', contact: '/contact',
       },

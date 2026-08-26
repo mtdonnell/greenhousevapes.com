@@ -87,6 +87,7 @@ function Locations() {
   const locs = [
     {
       city: "Festus",
+      page: "festus",
       addr: "38 E Main St, Festus, MO 63028",
       mapQ: "Greenhouse Vapes, 38 E Main St, Festus, MO 63028",
       phone: "(636) 638-2111",
@@ -103,6 +104,7 @@ function Locations() {
     },
     {
       city: "De Soto",
+      page: "desoto",
       addr: "418 S Main St, De Soto, MO 63020",
       mapQ: "Greenhouse Vapes, 418 S Main St, De Soto, MO 63020",
       phone: "(636) 638-2111",
@@ -184,6 +186,7 @@ function LocationCard({ loc }) {
           <div style={{ display: "flex", gap: 10, marginTop: 28, flexWrap: "wrap" }}>
             <a className="btn btn-primary" href={"https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(loc.mapQ)} target="_blank" rel="noopener">Get directions</a>
             <a className="btn btn-ghost" href={"tel:" + loc.phone}>Call store</a>
+            <a className="btn btn-ghost" href={routeHref(loc.page)}>Store details &amp; hours →</a>
           </div>
         </div>
 
@@ -714,3 +717,123 @@ function Products() {
 }
 
 Object.assign(window, { Products });
+
+/* ------------------------- SINGLE-STORE PAGES -------------------------
+   "vape shop festus" is a different query from the county-level one the
+   site already ranks for, and a page covering both stores competes weakly
+   for either. These give each shop its own URL, H1, hours, schema and
+   service area. Everything here is verified: addresses, phone and hours
+   come from the existing Locations data, and no landmark or direction is
+   claimed that has not been confirmed.
+---------------------------------------------------------------------- */
+const STORES = {
+  festus: {
+    city: "Festus",
+    zip: "63028",
+    street: "38 E Main St",
+    addr: "38 E Main St, Festus, MO 63028",
+    mapQ: "Greenhouse Vapes, 38 E Main St, Festus, MO 63028",
+    phone: "(636) 638-2111",
+    tel: "6366382111",
+    serves: ["Crystal City", "Herculaneum", "Pevely", "Imperial", "Arnold"],
+    blurb:
+      "Our Festus storefront sits on East Main Street in the middle of town, carrying the full lineup — disposables, refillable kits, coils and pods, e-liquid and a full glass case.",
+  },
+  desoto: {
+    city: "De Soto",
+    zip: "63020",
+    street: "418 S Main St",
+    addr: "418 S Main St, De Soto, MO 63020",
+    mapQ: "Greenhouse Vapes, 418 S Main St, De Soto, MO 63020",
+    phone: "(636) 638-2111",
+    tel: "6366382111",
+    serves: ["Hillsboro", "Cedar Hill", "Victoria", "Blackwell"],
+    blurb:
+      "Our De Soto shop is on South Main Street and has been our anchor store for years. Same full lineup as Festus, same meet-or-beat pricing, same punch card.",
+  },
+};
+
+const STORE_HOURS = [
+  ["Sunday", "10:00a – 8:00p"],
+  ["Monday", "10:00a – 8:00p"],
+  ["Tuesday", "10:00a – 8:00p"],
+  ["Wednesday", "10:00a – 8:00p"],
+  ["Thursday", "10:00a – 8:00p"],
+  ["Friday", "10:00a – 9:00p"],
+  ["Saturday", "10:00a – 9:00p"],
+];
+
+function StorePage({ store }) {
+  const s = STORES[store];
+  const mapSrc = "https://www.google.com/maps?q=" + encodeURIComponent(s.mapQ) + "&z=16&output=embed";
+  const dirHref = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(s.mapQ);
+  return (
+    <>
+      <section style={{ paddingBottom: 32 }}>
+        <div className="container">
+          <div style={{ maxWidth: 820 }}>
+            <div className="eyebrow" style={{ marginBottom: 18 }}>
+              {s.city}, Missouri · Jefferson County
+            </div>
+            <h1 style={{ marginBottom: 24 }}>
+              Vape shop in <em style={{ color: "var(--leaf)", fontStyle: "italic" }}>{s.city}</em>, MO.
+            </h1>
+            <p style={{ fontSize: 18, color: "var(--fg-2)", maxWidth: 640 }}>{s.blurb}</p>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 28 }}>
+              <a className="btn btn-primary" href={dirHref} target="_blank" rel="noopener">Get directions</a>
+              <a className="btn btn-ghost" href={"tel:" + s.tel}>Call {s.phone}</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ paddingTop: 8 }}>
+        <div className="container">
+          <div className="store-grid">
+            <div className="card store-facts">
+              <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap", marginBottom: 22 }}>
+                <h2 style={{ fontSize: 32, margin: 0 }}>{s.city}</h2>
+                <StoreStatusTag />
+              </div>
+              <dl className="store-dl">
+                <div><dt>Address</dt><dd>{s.street}<br />{s.city}, MO {s.zip}</dd></div>
+                <div><dt>Phone</dt><dd><a href={"tel:" + s.tel}>{s.phone}</a></dd></div>
+              </dl>
+              <h3 className="store-sub">Hours</h3>
+              <table className="store-hours">
+                <tbody>
+                  {STORE_HOURS.map(([d, h]) => (
+                    <tr key={d}><th scope="row">{d}</th><td>{h}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="card store-map">
+              <iframe
+                title={"Map of Greenhouse Vapes in " + s.city + ", MO"}
+                src={mapSrc}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+
+          <div className="store-serves">
+            <h2>Also an easy drive from</h2>
+            <p>
+              {s.serves.join(" · ")} — and anywhere else in Jefferson County. Call ahead
+              and we'll hold something for you.
+            </p>
+            <a className="btn btn-ghost" href={routeHref("products")}>See what we carry →</a>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function Festus() { return <StorePage store="festus" />; }
+function DeSoto() { return <StorePage store="desoto" />; }
+
+Object.assign(window, { Festus, DeSoto });

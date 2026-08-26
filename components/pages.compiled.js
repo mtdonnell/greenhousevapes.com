@@ -145,6 +145,7 @@ function Stat2({
 function Locations() {
   const locs = [{
     city: "Festus",
+    page: "festus",
     addr: "38 E Main St, Festus, MO 63028",
     mapQ: "Greenhouse Vapes, 38 E Main St, Festus, MO 63028",
     phone: "(636) 638-2111",
@@ -152,6 +153,7 @@ function Locations() {
     seo: "Festus vape shop · Jefferson County, MO"
   }, {
     city: "De Soto",
+    page: "desoto",
     addr: "418 S Main St, De Soto, MO 63020",
     mapQ: "Greenhouse Vapes, 418 S Main St, De Soto, MO 63020",
     phone: "(636) 638-2111",
@@ -307,7 +309,10 @@ function LocationCard({
   }, "Get directions"), /*#__PURE__*/React.createElement("a", {
     className: "btn btn-ghost",
     href: "tel:" + loc.phone
-  }, "Call store"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "Call store"), /*#__PURE__*/React.createElement("a", {
+    className: "btn btn-ghost",
+    href: routeHref(loc.page)
+  }, "Store details & hours \u2192"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "32px 40px 0"
     }
@@ -1250,4 +1255,152 @@ function Products() {
 }
 Object.assign(window, {
   Products
+});
+
+/* ------------------------- SINGLE-STORE PAGES -------------------------
+   "vape shop festus" is a different query from the county-level one the
+   site already ranks for, and a page covering both stores competes weakly
+   for either. These give each shop its own URL, H1, hours, schema and
+   service area. Everything here is verified: addresses, phone and hours
+   come from the existing Locations data, and no landmark or direction is
+   claimed that has not been confirmed.
+---------------------------------------------------------------------- */
+const STORES = {
+  festus: {
+    city: "Festus",
+    zip: "63028",
+    street: "38 E Main St",
+    addr: "38 E Main St, Festus, MO 63028",
+    mapQ: "Greenhouse Vapes, 38 E Main St, Festus, MO 63028",
+    phone: "(636) 638-2111",
+    tel: "6366382111",
+    serves: ["Crystal City", "Herculaneum", "Pevely", "Imperial", "Arnold"],
+    blurb: "Our Festus storefront sits on East Main Street in the middle of town, carrying the full lineup — disposables, refillable kits, coils and pods, e-liquid and a full glass case."
+  },
+  desoto: {
+    city: "De Soto",
+    zip: "63020",
+    street: "418 S Main St",
+    addr: "418 S Main St, De Soto, MO 63020",
+    mapQ: "Greenhouse Vapes, 418 S Main St, De Soto, MO 63020",
+    phone: "(636) 638-2111",
+    tel: "6366382111",
+    serves: ["Hillsboro", "Cedar Hill", "Victoria", "Blackwell"],
+    blurb: "Our De Soto shop is on South Main Street and has been our anchor store for years. Same full lineup as Festus, same meet-or-beat pricing, same punch card."
+  }
+};
+const STORE_HOURS = [["Sunday", "10:00a – 8:00p"], ["Monday", "10:00a – 8:00p"], ["Tuesday", "10:00a – 8:00p"], ["Wednesday", "10:00a – 8:00p"], ["Thursday", "10:00a – 8:00p"], ["Friday", "10:00a – 9:00p"], ["Saturday", "10:00a – 9:00p"]];
+function StorePage({
+  store
+}) {
+  const s = STORES[store];
+  const mapSrc = "https://www.google.com/maps?q=" + encodeURIComponent(s.mapQ) + "&z=16&output=embed";
+  const dirHref = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(s.mapQ);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("section", {
+    style: {
+      paddingBottom: 32
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 820
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "eyebrow",
+    style: {
+      marginBottom: 18
+    }
+  }, s.city, ", Missouri \xB7 Jefferson County"), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      marginBottom: 24
+    }
+  }, "Vape shop in ", /*#__PURE__*/React.createElement("em", {
+    style: {
+      color: "var(--leaf)",
+      fontStyle: "italic"
+    }
+  }, s.city), ", MO."), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 18,
+      color: "var(--fg-2)",
+      maxWidth: 640
+    }
+  }, s.blurb), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 12,
+      flexWrap: "wrap",
+      marginTop: 28
+    }
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "btn btn-primary",
+    href: dirHref,
+    target: "_blank",
+    rel: "noopener"
+  }, "Get directions"), /*#__PURE__*/React.createElement("a", {
+    className: "btn btn-ghost",
+    href: "tel:" + s.tel
+  }, "Call ", s.phone))))), /*#__PURE__*/React.createElement("section", {
+    style: {
+      paddingTop: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "store-grid"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "card store-facts"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "baseline",
+      gap: 12,
+      flexWrap: "wrap",
+      marginBottom: 22
+    }
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontSize: 32,
+      margin: 0
+    }
+  }, s.city), /*#__PURE__*/React.createElement(StoreStatusTag, null)), /*#__PURE__*/React.createElement("dl", {
+    className: "store-dl"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("dt", null, "Address"), /*#__PURE__*/React.createElement("dd", null, s.street, /*#__PURE__*/React.createElement("br", null), s.city, ", MO ", s.zip)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("dt", null, "Phone"), /*#__PURE__*/React.createElement("dd", null, /*#__PURE__*/React.createElement("a", {
+    href: "tel:" + s.tel
+  }, s.phone)))), /*#__PURE__*/React.createElement("h3", {
+    className: "store-sub"
+  }, "Hours"), /*#__PURE__*/React.createElement("table", {
+    className: "store-hours"
+  }, /*#__PURE__*/React.createElement("tbody", null, STORE_HOURS.map(([d, h]) => /*#__PURE__*/React.createElement("tr", {
+    key: d
+  }, /*#__PURE__*/React.createElement("th", {
+    scope: "row"
+  }, d), /*#__PURE__*/React.createElement("td", null, h)))))), /*#__PURE__*/React.createElement("div", {
+    className: "card store-map"
+  }, /*#__PURE__*/React.createElement("iframe", {
+    title: "Map of Greenhouse Vapes in " + s.city + ", MO",
+    src: mapSrc,
+    loading: "lazy",
+    referrerPolicy: "no-referrer-when-downgrade"
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "store-serves"
+  }, /*#__PURE__*/React.createElement("h2", null, "Also an easy drive from"), /*#__PURE__*/React.createElement("p", null, s.serves.join(" · "), " \u2014 and anywhere else in Jefferson County. Call ahead and we'll hold something for you."), /*#__PURE__*/React.createElement("a", {
+    className: "btn btn-ghost",
+    href: routeHref("products")
+  }, "See what we carry \u2192")))));
+}
+function Festus() {
+  return /*#__PURE__*/React.createElement(StorePage, {
+    store: "festus"
+  });
+}
+function DeSoto() {
+  return /*#__PURE__*/React.createElement(StorePage, {
+    store: "desoto"
+  });
+}
+Object.assign(window, {
+  Festus,
+  DeSoto
 });

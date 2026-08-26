@@ -392,3 +392,37 @@
   .shelf-cta { margin-top: 26px; }
   .shelf-cta .btn { width: 100%; justify-content: center; }
 }
+
+/* --------- Single-store pages (/festus, /de-soto) --------- */
+.store-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; }
+.store-facts { padding: 34px; }
+.store-dl { margin: 0 0 26px; display: grid; gap: 16px; }
+.store-dl div { display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: baseline; }
+.store-dl dt {
+  font-family: var(--mono); font-size: 10.5px; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--fg-3); margin: 0;
+}
+.store-dl dd { margin: 0; color: var(--fg-2); font-size: 0.95rem; line-height: 1.5; }
+.store-dl dd a { color: var(--leaf); }
+.store-sub {
+  font-family: var(--mono); font-size: 10.5px; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--fg-3); font-weight: 400;
+  padding-top: 20px; border-top: 1px solid var(--line-soft); margin: 0 0 12px;
+}
+.store-hours { width: 100%; border-collapse: collapse; }
+.store-hours th, .store-hours td { padding: 8px 0; font-size: 0.92rem; font-weight: 400; text-align: left; }
+.store-hours th { color: var(--fg-2); }
+.store-hours td { color: var(--fg-3); text-align: right; font-family: var(--mono); font-size: 0.8rem; }
+.store-hours tr + tr th, .store-hours tr + tr td { border-top: 1px solid var(--line-soft); }
+.store-map { overflow: hidden; min-height: 420px; padding: 0; }
+.store-map iframe { border: 0; width: 100%; height: 100%; min-height: 420px; display: block; filter: saturate(0.85) contrast(0.95); }
+.store-serves { margin-top: 44px; padding-top: 34px; border-top: 1px solid var(--line-soft); }
+.store-serves h2 { font-size: clamp(1.5rem, 3.4vw, 2rem); margin: 0 0 12px; }
+.store-serves p { color: var(--fg-2); max-width: 620px; margin: 0 0 20px; }
+
+@media (max-width: 860px) {
+  .store-grid { grid-template-columns: 1fr; }
+  .store-facts { padding: 26px; }
+  .store-map, .store-map iframe { min-height: 300px; }
+  .store-dl div { grid-template-columns: 88px 1fr; }
+}

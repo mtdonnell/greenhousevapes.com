@@ -500,12 +500,14 @@ function PromiseSection() {
 function LocationsPreview() {
   const locs = [{
     name: "Festus",
+    page: "festus",
     addr: "38 E Main St, Festus, MO",
     mapQ: "Greenhouse Vapes, 38 E Main St, Festus, MO 63028",
     hours: "Sun–Thu · 10a–8p",
     hours2: "Fri–Sat · 10a–9p"
   }, {
     name: "De Soto",
+    page: "desoto",
     addr: "418 S Main St, De Soto, MO",
     mapQ: "Greenhouse Vapes, 418 S Main St, De Soto, MO 63020",
     hours: "Sun–Thu · 10a–8p",
@@ -612,7 +614,7 @@ function LocationsPreview() {
     style: {
       marginTop: 22
     },
-    href: routeHref("locations")
+    href: routeHref(l.page)
   }, "Hours & directions \u2192"))))))));
 }
 
